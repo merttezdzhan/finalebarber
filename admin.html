@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finale Barbershop | Yönetici Paneli</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .admin-page {
+            padding-top: 6rem;
+            min-height: 100vh;
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .admin-stat-card {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .admin-stat-icon {
+            font-size: 2rem;
+            color: var(--primary-gold);
+            background: rgba(212, 175, 55, 0.1);
+            width: 60px; height: 60px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: var(--radius-sm);
+        }
+
+        .admin-stat-info h3 {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .admin-stat-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .admin-controls-bar {
+            padding: 1.5rem;
+            margin-bottom: 1.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: center;
+            flex: 1;
+        }
+
+        .filter-input {
+            max-width: 240px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-gold);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            text-align: left;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 1.1rem;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 0.95rem;
+        }
+
+        .admin-table th {
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--primary-gold);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge-status {
+            padding: 0.3rem 0.7rem;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .status-bekliyor {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .status-onaylandi {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-storniert {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .btn-confirm { background: #10b981; color: #fff; }
+        .btn-cancel { background: #f59e0b; color: #fff; }
+        .btn-delete { background: #ef4444; color: #fff; }
+
+        .empty-table-state {
+            padding: 4rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-table-state i {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <header class="site-header">
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <span class="logo-badge">DER</span>
+                <span class="logo-text">FINALE <span class="logo-sub">BARBERSHOP</span></span>
+                <span style="font-size: 0.85rem; color: var(--primary-gold); margin-left: 0.5rem; background: rgba(212,175,55,0.15); padding: 0.1rem 0.5rem; border-radius: 4px;">ADMIN</span>
+            </a>
+
+            <div class="nav-actions">
+                <a href="index.html" class="btn btn-outline btn-sm">
+                    <i class="fa-solid fa-arrow-left"></i> Siteye Dön
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="admin-page container">
+
+        <div class="section-header">
+            <div class="section-tag">YÖNETİM PANELDİR</div>
+            <h1 class="section-title">Randevu Yönetimi Dashboard</h1>
+            <p class="section-subtitle">Der Finale Barbershop müşterilerinin randevularını yönetin, onaylayın veya silin.</p>
+        </div>
+
+        <!-- Dashboard Statistics -->
+        <div class="admin-stats-grid">
+            <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="admin-stat-info">
+                    <h3 id="statTotalCount">0</h3>
+                    <p>Toplam Randevu</p>
+                </div>
+            </div>
+
+            <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="admin-stat-info">
+                    <h3 id="statPendingCount">0</h3>
+                    <p>Bekleyen Randevular</p>
+                </div>
+            </div>
+
+            <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-icon"><i class="fa-solid fa-check-double"></i></div>
+                <div class="admin-stat-info">
+                    <h3 id="statApprovedCount">0</h3>
+                    <p>Onaylanan Randevular</p>
+                </div>
+            </div>
+
+            <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-icon"><i class="fa-solid fa-calendar-day"></i></div>
+                <div class="admin-stat-info">
+                    <h3 id="statTodayCount">0</h3>
+                    <p>Bugünün Randevuları</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls & Filters -->
+        <div class="admin-controls-bar glass-panel">
+            <div class="filter-group">
+                <!-- Search Bar -->
+                <input type="text" id="searchInput" class="form-control filter-input" placeholder="Müşteri veya Telefon Ara...">
+                
+                <!-- Date Filter -->
+                <input type="date" id="dateFilter" class="form-control filter-input">
+
+                <!-- Status Filter -->
+                <select id="statusFilter" class="form-control filter-input">
+                    <option value="ALL">Tüm Durumlar</option>
+                    <option value="Bekliyor">Bekliyor</option>
+                    <option value="Onaylandı">Onaylandı</option>
+                    <option value="Storniert">Storniert (İptal)</option>
+                </select>
+
+                <button class="btn btn-outline btn-sm" onclick="resetFilters()">
+                    <i class="fa-solid fa-rotate-left"></i> Filtre Sıfırla
+                </button>
+            </div>
+
+            <div>
+                <button class="btn btn-primary btn-sm" onclick="exportToCSV()">
+                    <i class="fa-solid fa-file-csv"></i> CSV İndir
+                </button>
+            </div>
+        </div>
+
+        <!-- Appointments Table -->
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Tarih & Saat</th>
+                        <th>Müşteri Adı</th>
+                        <th>Telefon</th>
+                        <th>Hizmet</th>
+                        <th>Notlar</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody id="appointmentsTableBody">
+                    <!-- Dynamic Data -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>
