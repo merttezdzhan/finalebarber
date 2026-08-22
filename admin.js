@@ -86,6 +86,9 @@ function loadAppointments() {
                     <button class="btn btn-icon btn-cancel" title="İptal Et" onclick="updateStatus(${app.id}, 'Storniert')">
                         <i class="fa-solid fa-ban"></i>
                     </button>
+                    <button class="btn btn-icon" style="background: #3b82f6; color: #fff;" title="Mail Gönder" onclick="resendAppointmentEmail(${app.id})">
+                        <i class="fa-solid fa-envelope"></i>
+                    </button>
                     <button class="btn btn-icon btn-delete" title="Sil" onclick="deleteAppointment(${app.id})">
                         <i class="fa-solid fa-trash"></i>
                     </button>
@@ -113,13 +116,20 @@ function updateStats(appointments) {
 
 function updateStatus(id, newStatus) {
     let appointments = JSON.parse(localStorage.getItem('barberAppointments')) || [];
+    let updatedApp = null;
     appointments = appointments.map(app => {
         if (app.id === id) {
-            return { ...app, status: newStatus };
+            updatedApp = { ...app, status: newStatus };
+            return updatedApp;
         }
         return app;
     });
     localStorage.setItem('barberAppointments', JSON.stringify(appointments));
+    
+    if (updatedApp) {
+        sendAppointmentEmailNotification(updatedApp, `Randevu Durumu Güncellendi: ${newStatus}`);
+    }
+    
     loadAppointments();
 }
 
@@ -169,6 +179,97 @@ function exportToCSV() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+// --- EMAIL NOTIFICATION HELPERS ---
+const NOTIFICATION_EMAIL = "Habapli7@gmail.com";
+
+function sendTestEmail() {
+    const btn = document.getElementById('btnTestEmail');
+    const statusDiv = document.getElementById('emailTestStatus');
+    if (!statusDiv) return;
+
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Gönderiliyor...';
+    }
+
+    statusDiv.style.display = 'block';
+    statusDiv.style.color = 'var(--text-secondary)';
+    statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Habapli7@gmail.com adresine test e-postası iletiliyor...';
+
+    const payload = {
+        _subject: "💈 Finale Barbershop Admin Test Bildirimi",
+        _template: "table",
+        _captcha: "false",
+        "Bildirim Türü": "Yönetici Paneli Test E-Postası",
+        "Alıcı Mail": NOTIFICATION_EMAIL,
+        "Gönderim Zamanı": new Date().toLocaleString('tr-TR'),
+        "Durum": "Başarılı - Sistem Aktif!"
+    };
+
+    fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+        statusDiv.style.color = '#10b981';
+        statusDiv.innerHTML = `<i class="fa-solid fa-circle-check"></i> Test e-postası başarıyla <strong>${NOTIFICATION_EMAIL}</strong> adresine gönderildi!`;
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Test E-postası Gönder';
+        }
+    })
+    .catch(err => {
+        statusDiv.style.color = '#ef4444';
+        statusDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> E-posta gönderilirken bir uyarı oluştu.`;
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Tekrar Deneyin';
+        }
+    });
+}
+
+function resendAppointmentEmail(id) {
+    const appointments = JSON.parse(localStorage.getItem('barberAppointments')) || [];
+    const app = appointments.find(a => a.id === id);
+    if (app) {
+        sendAppointmentEmailNotification(app, `MANUEL TEKRAR BİLDİRİM: ${app.name}`);
+        alert(`Randevu e-posta bildirimi ${NOTIFICATION_EMAIL} adresine tekrar iletildi.`);
+    }
+}
+
+function sendAppointmentEmailNotification(appointment, customSubject) {
+    const formattedDate = formatDate(appointment.date);
+    const subject = customSubject || `💈 TERMİN BİLDİRİMİ: ${appointment.name} - ${formattedDate} @ ${appointment.time}`;
+
+    const payload = {
+        _subject: subject,
+        _template: "table",
+        _captcha: "false",
+        "Müşteri Adı / Name": appointment.name,
+        "Telefon / Phone": appointment.phone,
+        "Tarih / Date": formattedDate,
+        "Saat / Time": appointment.time,
+        "Hizmet / Service": appointment.service,
+        "Notlar / Notes": appointment.notes || "-",
+        "Durum / Status": appointment.status || "Bekliyor",
+        "İşlem Zamanı": new Date().toLocaleString('tr-TR')
+    };
+
+    fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).catch(e => console.warn("Email warning:", e));
 }
 
 function formatDate(dateStr) {

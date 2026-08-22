@@ -388,6 +388,24 @@
                         <p>Bugünün Randevuları</p>
                     </div>
                 </div>
+            <!-- Email Notification Settings Card -->
+            <div class="glass-panel" style="padding: 1.5rem; margin-bottom: 2rem; border-left: 4px solid var(--primary-gold);">
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+                    <div>
+                        <h3 style="font-size: 1.1rem; margin-bottom: 0.3rem;">
+                            <i class="fa-solid fa-envelope-circle-check" style="color: var(--primary-gold); margin-right: 0.5rem;"></i> E-Posta Bildirim Sistemi Aktif
+                        </h3>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">
+                            Randevular otomatik olarak <strong>Habapli7@gmail.com</strong> adresine iletilmektedir.
+                        </p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-sm" id="btnTestEmail" onclick="sendTestEmail()">
+                            <i class="fa-solid fa-paper-plane"></i> Test E-postası Gönder
+                        </button>
+                    </div>
+                </div>
+                <div id="emailTestStatus" style="margin-top: 0.8rem; font-size: 0.85rem; display: none;"></div>
             </div>
 
             <!-- Controls & Filters -->

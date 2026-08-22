@@ -209,103 +209,105 @@
             <div class="container">
                 <div class="section-header text-center">
                     <div class="section-tag" data-i18n="servicesTag">ANGEBOT & LEISTUNGEN</div>
-                    <h2 class="section-title" data-i18n="servicesTitle">Unsere Leistungen & Fiyatlar</h2>
-                    <p class="section-subtitle" data-i18n="servicesSub">Erstklassige Qualität zu fairen Preisen. Wählen Sie Ihre gewünschte Leistung aus.</p>
+                    <h2 class="section-title" data-i18n="servicesTitle">Unsere Preise & Spezial-Pakete</h2>
+                    <p class="section-subtitle" data-i18n="servicesSub">Erstklassige Qualität zu fairen Preisen. Wählen Sie Ihre gewünschte Leistung oder eines unserer Spar-Pakete.</p>
                 </div>
 
-                <!-- Interactive Service Cards Grid -->
-                <div class="services-cards-grid">
-                    <div class="service-card glass-panel" onclick="quickSelectService('Herrenhaarschnitt')">
-                        <div class="service-badge" data-i18n="popularBadge">Beliebt</div>
+                <!-- Special Packages Grid (Paket 1, Paket 2, Paket 3) -->
+                <div class="packages-header text-center" style="margin-bottom: 2rem;">
+                    <h3 class="gold-gradient" style="font-size: 1.6rem; font-weight: 800;" data-i18n="packagesTitle">Spezial Spar-Pakete</h3>
+                </div>
+
+                <div class="services-cards-grid packages-grid">
+                    <!-- Paket 1 -->
+                    <div class="service-card glass-panel" onclick="quickSelectService('Paket 1')">
+                        <div class="service-badge gold" data-i18n="pkg1Badge">SPAR PAKET</div>
                         <div class="service-icon"><i class="fa-solid fa-scissors"></i></div>
-                        <h3 class="service-name" data-i18n="service1Title">Herrenhaarschnitt</h3>
-                        <p class="service-desc" data-i18n="service1Desc">Klassischer oder moderner Haarschnitt inklusive Beratung, Yıkama & Styling.</p>
+                        <h3 class="service-name" data-i18n="pkg1Title">Paket 1</h3>
+                        <p class="service-desc" data-i18n="pkg1Desc">Waschen, Schneiden, Rasieren, Föhnen & Stylen</p>
                         <div class="service-footer">
-                            <span class="service-price">€15</span>
+                            <span class="service-price">33€</span>
                             <button class="btn btn-sm btn-outline" data-i18n="selectServiceBtn">Wählen & Buchen</button>
                         </div>
                     </div>
 
-                    <div class="service-card glass-panel" onclick="quickSelectService('Bartpflege')">
-                        <div class="service-icon"><i class="fa-solid fa-spa"></i></div>
-                        <h3 class="service-name" data-i18n="service2Title">Präzise Bartpflege</h3>
-                        <p class="service-desc" data-i18n="service2Desc">Formen, Konturenschnitt mit Rasiermesser & pflegendes Bartöl.</p>
-                        <div class="service-footer">
-                            <span class="service-price">€10</span>
-                            <button class="btn btn-sm btn-outline" data-i18n="selectServiceBtn">Wählen & Buchen</button>
-                        </div>
-                    </div>
-
-                    <div class="service-card glass-panel featured-service" onclick="quickSelectService('Haar & Bart Komplett')">
-                        <div class="service-badge gold" data-i18n="comboBadge">BESTER DEAL</div>
+                    <!-- Paket 2 (Featured) -->
+                    <div class="service-card glass-panel featured-service" onclick="quickSelectService('Paket 2')">
+                        <div class="service-badge gold" data-i18n="pkg2Badge">BELIEBT</div>
                         <div class="service-icon"><i class="fa-solid fa-crown"></i></div>
-                        <h3 class="service-name" data-i18n="service3Title">Haar & Bart Komplett</h3>
-                        <p class="service-desc" data-i18n="service3Desc">Das Rundum-Sorglos-Paket: Haarschnitt, Fade, Komplett-Bartpflege & Yıkama.</p>
+                        <h3 class="service-name" data-i18n="pkg2Title">Paket 2</h3>
+                        <p class="service-desc" data-i18n="pkg2Desc">Waschen, Schneiden, Rasieren, Föhnen, Stylen & Augenbrauen zupfen</p>
                         <div class="service-footer">
-                            <span class="service-price">€20</span>
+                            <span class="service-price">38€</span>
                             <button class="btn btn-sm btn-primary" data-i18n="selectServiceBtn">Wählen & Buchen</button>
                         </div>
                     </div>
 
-                    <div class="service-card glass-panel" onclick="quickSelectService('Kinderhaarschnitt')">
-                        <div class="service-icon"><i class="fa-solid fa-child"></i></div>
-                        <h3 class="service-name" data-i18n="service4Title">Kinderhaarschnitt</h3>
-                        <p class="service-desc" data-i18n="service4Desc">Geduldiger & moderner Haarschnitt für Kinder (bis 12 Jahre).</p>
-                        <div class="service-footer">
-                            <span class="service-price">€12</span>
-                            <button class="btn btn-sm btn-outline" data-i18n="selectServiceBtn">Wählen & Buchen</button>
-                        </div>
-                    </div>
-
-                    <div class="service-card glass-panel" onclick="quickSelectService('Cilt Bakımı & Maske')">
+                    <!-- Paket 3 (VIP) -->
+                    <div class="service-card glass-panel" onclick="quickSelectService('Paket 3')">
+                        <div class="service-badge gold" data-i18n="pkg3Badge">FULL CARE</div>
                         <div class="service-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                        <h3 class="service-name" data-i18n="service5Title">Gesichtspflege & Maske</h3>
-                        <p class="service-desc" data-i18n="service5Desc">Tiefenreinigung mit Gesichtsmaske für frische Haut.</p>
+                        <h3 class="service-name" data-i18n="pkg3Title">Paket 3</h3>
+                        <p class="service-desc" data-i18n="pkg3Desc">Waschen, Schneiden, Rasieren, Föhnen, Stylen, Augenbrauen zupfen, Färben (Bart / Haare)</p>
                         <div class="service-footer">
-                            <span class="service-price">€5</span>
+                            <span class="service-price">60€</span>
                             <button class="btn btn-sm btn-outline" data-i18n="selectServiceBtn">Wählen & Buchen</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Complete Price List Table -->
+                <!-- Complete Individual Price List Table (7 items) -->
                 <div class="price-list-container glass-panel">
-                    <h3 class="price-table-title" data-i18n="fullPriceTitle"><i class="fa-solid fa-list"></i> Vollständige Preisübersicht</h3>
+                    <h3 class="price-table-title" data-i18n="fullPriceTitle"><i class="fa-solid fa-list"></i> Einzelne Leistungen & Preise</h3>
                     <div class="price-items-grid">
-                        <div class="price-item">
+                        <div class="price-item" onclick="quickSelectService('Trocken Haarschnitt')" style="cursor:pointer;">
                             <div class="price-info">
-                                <span class="price-title" data-i18n="p1Name">Professioneller Herrenhaarschnitt</span>
-                                <span class="price-sub" data-i18n="p1Sub">Scheren- oder Maschinenschnitt mit Finisher</span>
+                                <span class="price-title" data-i18n="p1Name">Trocken Haarschnitt</span>
+                                <span class="price-sub" data-i18n="p1Sub">Klassischer oder moderner Trockenschnitt</span>
                             </div>
-                            <span class="price-tag">€15.00</span>
+                            <span class="price-tag">18€</span>
                         </div>
-                        <div class="price-item">
+                        <div class="price-item" onclick="quickSelectService('Waschen, Schneiden, Föhnen')" style="cursor:pointer;">
                             <div class="price-info">
-                                <span class="price-title" data-i18n="p2Name">Bart Trimmen & Konturen</span>
-                                <span class="price-sub" data-i18n="p2Sub">Präzisionsrasur und Konturenformung</span>
+                                <span class="price-title" data-i18n="p2Name">Waschen, Schneiden, Föhnen</span>
+                                <span class="price-sub" data-i18n="p2Sub">Inklusive Haarwäsche, Schnitt und Föhnen</span>
                             </div>
-                            <span class="price-tag">€10.00</span>
+                            <span class="price-tag">21€</span>
                         </div>
-                        <div class="price-item">
+                        <div class="price-item" onclick="quickSelectService('Bartrasur')" style="cursor:pointer;">
                             <div class="price-info">
-                                <span class="price-title" data-i18n="p3Name">Haarschnitt + Bart + Kopfwaschen</span>
-                                <span class="price-sub" data-i18n="p3Sub">Vollständiges Styling- & Pflegepaket</span>
+                                <span class="price-title" data-i18n="p3Name">Bartrasur</span>
+                                <span class="price-sub" data-i18n="p3Sub">Präzisionsrasur und Konturenformung</span>
                             </div>
-                            <span class="price-tag">€20.00</span>
+                            <span class="price-tag">12€</span>
                         </div>
-                        <div class="price-item">
+                        <div class="price-item" onclick="quickSelectService('Augenbrauen zupfen')" style="cursor:pointer;">
                             <div class="price-info">
-                                <span class="price-title" data-i18n="p4Name">Kinderhaarschnitt</span>
-                                <span class="price-sub" data-i18n="p4Sub">Für Jugendliche & Kinder</span>
+                                <span class="price-title" data-i18n="p4Name">Augenbrauen zupfen</span>
+                                <span class="price-sub" data-i18n="p4Sub">Präzises Zupfen & Formgebung</span>
                             </div>
-                            <span class="price-tag">€12.00</span>
+                            <span class="price-tag">7€</span>
                         </div>
-                        <div class="price-item">
+                        <div class="price-item" onclick="quickSelectService('Kinder Haarschnitt')" style="cursor:pointer;">
                             <div class="price-info">
-                                <span class="price-title" data-i18n="p5Name">Gesichtsmaske & Porenreinigung</span>
-                                <span class="price-sub" data-i18n="p5Sub">Wohltuende Gesichtsbehandlung</span>
+                                <span class="price-title" data-i18n="p5Name">Kinder Haarschnitt (bis 10 Jahre)</span>
+                                <span class="price-sub" data-i18n="p5Sub">Geduldiger & moderner Schnitt für Kinder</span>
                             </div>
-                            <span class="price-tag">€5.00</span>
+                            <span class="price-tag">15€</span>
+                        </div>
+                        <div class="price-item" onclick="quickSelectService('Waschen, Föhnen, Stylen')" style="cursor:pointer;">
+                            <div class="price-info">
+                                <span class="price-title" data-i18n="p6Name">Waschen, Föhnen, Stylen</span>
+                                <span class="price-sub" data-i18n="p6Sub">Haarwäsche, Föhnen und Finish-Styling</span>
+                            </div>
+                            <span class="price-tag">7€</span>
+                        </div>
+                        <div class="price-item" onclick="quickSelectService('Bart / Haare Färben')" style="cursor:pointer;">
+                            <div class="price-info">
+                                <span class="price-title" data-i18n="p7Name">Bart / Haare Färben</span>
+                                <span class="price-sub" data-i18n="p7Sub">Professionelle Tönung & Färbung</span>
+                            </div>
+                            <span class="price-tag">20€</span>
                         </div>
                     </div>
                 </div>
@@ -373,11 +375,20 @@
                                 </label>
                                 <select id="serviceSelect" class="form-control" required>
                                     <option value="" disabled selected data-i18n="phSelectService">Bitte Leistung wählen...</option>
-                                    <option value="Herrenhaarschnitt">Herrenhaarschnitt (€15)</option>
-                                    <option value="Bartpflege">Präzise Bartpflege (€10)</option>
-                                    <option value="Haar & Bart Komplett">Haar & Bart Komplett (€20)</option>
-                                    <option value="Kinderhaarschnitt">Kinderhaarschnitt (€12)</option>
-                                    <option value="Cilt Bakımı & Maske">Gesichtspflege & Maske (€5)</option>
+                                    <optgroup label="Spezial-Pakete">
+                                        <option value="Paket 1: Waschen, Schneiden, Rasieren, Föhnen & Stylen (33€)">Paket 1 - Waschen, Schneiden, Rasieren, Föhnen & Stylen (33€)</option>
+                                        <option value="Paket 2: Waschen, Schneiden, Rasieren, Föhnen, Stylen & Augenbrauen (38€)">Paket 2 - Waschen, Schneiden, Rasieren, Föhnen, Stylen & Augenbrauen (38€)</option>
+                                        <option value="Paket 3: Waschen, Schneiden, Rasieren, Föhnen, Stylen, Augenbrauen, Färben (60€)">Paket 3 - Komplett + Färben (Bart/Haare) (60€)</option>
+                                    </optgroup>
+                                    <optgroup label="Einzelne Leistungen">
+                                        <option value="Trocken Haarschnitt (18€)">Trocken Haarschnitt (18€)</option>
+                                        <option value="Waschen, Schneiden, Föhnen (21€)">Waschen, Schneiden, Föhnen (21€)</option>
+                                        <option value="Bartrasur (12€)">Bartrasur (12€)</option>
+                                        <option value="Augenbrauen zupfen (7€)">Augenbrauen zupfen (7€)</option>
+                                        <option value="Kinder Haarschnitt bis 10 Jahre (15€)">Kinder Haarschnitt bis 10 Jahre (15€)</option>
+                                        <option value="Waschen, Föhnen, Stylen (7€)">Waschen, Föhnen, Stylen (7€)</option>
+                                        <option value="Bart / Haare Färben (20€)">Bart / Haare Färben (20€)</option>
+                                    </optgroup>
                                 </select>
                             </div>
 

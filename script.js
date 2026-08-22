@@ -8,7 +8,7 @@ const translations = {
         docTitle: "Der Finale Barbershop | Mörfelden-Walldorf",
         navHome: "Startseite",
         navAbout: "Über Uns",
-        navServices: "Leistungen & Preise",
+        navServices: "Preise & Pakete",
         navGallery: "Galerie",
         navContact: "Kontakt & Anfahrt",
         navBookBtn: "Termin Buchen",
@@ -30,7 +30,7 @@ const translations = {
         aboutTag: "ÜBER UNSEREN SALON",
         aboutTitle: "Der Finale Barbershop – Tradition trifft auf modernen Style",
         aboutDesc1: "In der Westendstraße 3 in Mörfelden-Walldorf bieten wir mehr als nur Haarschnitte – wir bieten ein erstklassiges Pflegeritual für den modernen Mann.",
-        aboutDesc2: "Egal ob präziser Skin Fade, klassischer Faconschnitt oder konturenscharfe Bartpflege mit Hot-Towel Behandlung: Bei uns stehen höchste Präzision und Ihre Kundenzufriedenheit an erster Stelle.",
+        aboutDesc2: "Egal ob präziser Fade Cut, klassischer Schnitt oder konturenscharfe Bartpflege mit Hot-Towel Behandlung: Bei uns stehen höchste Präzision und Ihre Kundenzufriedenheit an erster Stelle.",
         feat1Title: "Präzise Fades & Schnitte",
         feat1Desc: "Saubere Übergänge maßgeschneidert auf Ihre Kopfform.",
         feat2Title: "Traditionelle Bartpflege",
@@ -39,32 +39,34 @@ const translations = {
         feat3Desc: "Online buchen, anrufen oder einfach vorbeikommen.",
         satisfactionText: "Kundenzufriedenheit",
         servicesTag: "ANGEBOT & LEISTUNGEN",
-        servicesTitle: "Unsere Leistungen & Preise",
-        servicesSub: "Erstklassige Qualität zu fairen Preisen. Wählen Sie Ihre gewünschte Leistung aus.",
-        popularBadge: "Beliebt",
-        comboBadge: "BESTER DEAL",
-        service1Title: "Herrenhaarschnitt",
-        service1Desc: "Klassischer oder moderner Haarschnitt inklusive Beratung, Waschen & Styling.",
-        service2Title: "Präzise Bartpflege",
-        service2Desc: "Formen, Konturenschnitt mit Rasiermesser & pflegendes Bartöl.",
-        service3Title: "Haar & Bart Komplett",
-        service3Desc: "Das Rundum-Sorglos-Paket: Haarschnitt, Fade, Komplett-Bartpflege & Waschen.",
-        service4Title: "Kinderhaarschnitt",
-        service4Desc: "Geduldiger & moderner Haarschnitt für Kinder (bis 12 Jahre).",
-        service5Title: "Gesichtspflege & Maske",
-        service5Desc: "Tiefenreinigung mit Gesichtsmaske für frische Haut.",
+        servicesTitle: "Unsere Preise & Spezial-Pakete",
+        servicesSub: "Erstklassige Qualität zu fairen Preisen. Wählen Sie Ihre gewünschte Leistung oder eines unserer Spar-Pakete.",
+        packagesTitle: "Spezial Spar-Pakete",
+        pkg1Badge: "SPAR PAKET",
+        pkg1Title: "Paket 1",
+        pkg1Desc: "Waschen, Schneiden, Rasieren, Föhnen & Stylen",
+        pkg2Badge: "BELIEBT",
+        pkg2Title: "Paket 2",
+        pkg2Desc: "Waschen, Schneiden, Rasieren, Föhnen, Stylen & Augenbrauen zupfen",
+        pkg3Badge: "FULL CARE",
+        pkg3Title: "Paket 3",
+        pkg3Desc: "Waschen, Schneiden, Rasieren, Föhnen, Stylen, Augenbrauen zupfen, Färben (Bart / Haare)",
         selectServiceBtn: "Wählen & Buchen",
-        fullPriceTitle: "Vollständige Preisübersicht",
-        p1Name: "Professioneller Herrenhaarschnitt",
-        p1Sub: "Scheren- oder Maschinenschnitt mit Finisher",
-        p2Name: "Bart Trimmen & Konturen",
-        p2Sub: "Präzisionsrasur und Konturenformung",
-        p3Name: "Haarschnitt + Bart + Kopfwaschen",
-        p3Sub: "Vollständiges Styling- & Pflegepaket",
-        p4Name: "Kinderhaarschnitt",
-        p4Sub: "Für Jugendliche & Kinder",
-        p5Name: "Gesichtsmaske & Porenreinigung",
-        p5Sub: "Wohltuende Gesichtsbehandlung",
+        fullPriceTitle: "Einzelne Leistungen & Preise",
+        p1Name: "Trocken Haarschnitt",
+        p1Sub: "Klassischer oder moderner Trockenschnitt",
+        p2Name: "Waschen, Schneiden, Föhnen",
+        p2Sub: "Inklusive Haarwäsche, Schnitt und Föhnen",
+        p3Name: "Bartrasur",
+        p3Sub: "Präzisionsrasur und Konturenformung",
+        p4Name: "Augenbrauen zupfen",
+        p4Sub: "Präzises Zupfen & Formgebung",
+        p5Name: "Kinder Haarschnitt (bis 10 Jahre)",
+        p5Sub: "Geduldiger & moderner Schnitt für Kinder",
+        p6Name: "Waschen, Föhnen, Stylen",
+        p6Sub: "Haarwäsche, Föhnen und Finish-Styling",
+        p7Name: "Bart / Haare Färben",
+        p7Sub: "Professionelle Tönung & Färbung",
         galleryTag: "GALERIE",
         galleryTitle: "Impressionen & Unsere Arbeiten",
         gallerySub: "Präzise Arbeit, moderne Schnitte und erstklassige Bartpflege.",
@@ -110,7 +112,7 @@ const translations = {
         docTitle: "Der Finale Barbershop | Mörfelden-Walldorf",
         navHome: "Ana Sayfa",
         navAbout: "Hakkımızda",
-        navServices: "Hizmetler & Fiyatlar",
+        navServices: "Fiyatlar & Paketler",
         navGallery: "Galeri",
         navContact: "İletişim & Konum",
         navBookBtn: "Randevu Al",
@@ -141,32 +143,34 @@ const translations = {
         feat3Desc: "İster online randevu alın, ister direkt uğrayın.",
         satisfactionText: "Müşteri Memnuniyeti",
         servicesTag: "HİZMETLER & FİYATLAR",
-        servicesTitle: "Hizmetlerimiz ve Fiyat Listesi",
-        servicesSub: "Uygun fiyatlarla birinci sınıf kalite. Aradığınız hizmeti seçin.",
-        popularBadge: "Popüler",
-        comboBadge: "EN İYİ PAKET",
-        service1Title: "Erkek Saç Kesimi",
-        service1Desc: "Klasik veya modern saç kesimi, yıkama ve stil verme dahil.",
-        service2Title: "Hassas Sakal Bakımı",
-        service2Desc: "Sakal şekillendirme, ustura konturu ve bakım yağı.",
-        service3Title: "Saç & Sakal Komple",
-        service3Desc: "Tam bakım paketi: Saç kesimi, fade, sakal tasarımı ve yıkama.",
-        service4Title: "Çocuk Saç Kesimi",
-        service4Desc: "Çocuklar için özel ve sabırlı kesim (12 yaşa kadar).",
-        service5Title: "Cilt Bakımı & Maske",
-        service5Desc: "Ferah bir cilt için siyah nokta ve gözenek maskesi.",
+        servicesTitle: "Fiyat Listemiz & Özel Paketler",
+        servicesSub: "Uygun fiyatlarla birinci sınıf kuaförlük hizmeti. Dilediğiniz hizmeti veya avantajlı paketlerimizi seçin.",
+        packagesTitle: "Avantajlı Özel Paketler",
+        pkg1Badge: "AVANTAJ PAKETİ",
+        pkg1Title: "Paket 1",
+        pkg1Desc: "Yıkama, Kesim, Sakal Tıraşı, Fön & Şekillendirme",
+        pkg2Badge: "POPÜLER",
+        pkg2Title: "Paket 2",
+        pkg2Desc: "Yıkama, Kesim, Sakal Tıraşı, Fön, Şekillendirme & Kaş Alma",
+        pkg3Badge: "FULL BAKIM",
+        pkg3Title: "Paket 3",
+        pkg3Desc: "Yıkama, Kesim, Sakal Tıraşı, Fön, Şekillendirme, Kaş Alma, Boyama (Sakal / Saç)",
         selectServiceBtn: "Seç & Randevu Al",
-        fullPriceTitle: "Tüm Fiyat Listesi",
-        p1Name: "Profesyonel Erkek Saç Kesimi",
-        p1Sub: "Makas veya makine kesimi ve şekillendirme",
-        p2Name: "Sakal Düzeltme & Kontur",
-        p2Sub: "Hassas tıraş ve çizgi belirleme",
-        p3Name: "Saç + Sakal + Yıkama Komple",
-        p3Sub: "Eksiksiz stil ve bakım paketi",
-        p4Name: "Çocuk Saç Kesimi",
-        p4Sub: "Gençler ve çocuklar için",
-        p5Name: "Yüz Maskesi & Derin Temizlik",
-        p5Sub: "Rahatlatıcı cilt bakımı",
+        fullPriceTitle: "Tekil Hizmetler & Fiyat Listesi",
+        p1Name: "Kuru Saç Kesimi (Trocken Haarschnitt)",
+        p1Sub: "Klasik veya modern kuru kesim",
+        p2Name: "Yıkama, Kesim, Fön",
+        p2Sub: "Saç yıkama, kesim ve profesyonel fön",
+        p3Name: "Sakal Tıraşı (Bartrasur)",
+        p3Sub: "Ustura ile hassas sakal tıraşı ve kontur",
+        p4Name: "Kaş Alma (Augenbrauen zupfen)",
+        p4Sub: "İp / cımbız ile hassas kaş şekillendirme",
+        p5Name: "Çocuk Saç Kesimi (10 Yaşa Kadar)",
+        p5Sub: "Çocuklar için sabırlı ve modern saç kesimi",
+        p6Name: "Yıkama, Fön, Şekillendirme",
+        p6Sub: "Saç yıkama, fön ve wax/jöle stil",
+        p7Name: "Sakal / Saç Boyama",
+        p7Sub: "Profesyonel sakal veya saç renklendirme",
         galleryTag: "GALERİ",
         galleryTitle: "Tıraşlarımız & Çalışmalarımız",
         gallerySub: "Özenli işçilik, modern kesimler ve hassas sakal tasarımı.",
@@ -212,7 +216,7 @@ const translations = {
         docTitle: "Der Finale Barbershop | Mörfelden-Walldorf",
         navHome: "Home",
         navAbout: "About Us",
-        navServices: "Services & Prices",
+        navServices: "Prices & Packages",
         navGallery: "Gallery",
         navContact: "Contact & Location",
         navBookBtn: "Book Now",
@@ -243,32 +247,34 @@ const translations = {
         feat3Desc: "Book online, call us, or just walk in.",
         satisfactionText: "Customer Satisfaction",
         servicesTag: "SERVICES & PRICING",
-        servicesTitle: "Our Services & Price List",
-        servicesSub: "Premium quality at fair prices. Select your desired service.",
-        popularBadge: "Popular",
-        comboBadge: "BEST DEAL",
-        service1Title: "Men's Haircut",
-        service1Desc: "Classic or modern haircut including consultation, wash & styling.",
-        service2Title: "Beard Grooming",
-        service2Desc: "Beard shaping, razor line up & nourishing beard oil.",
-        service3Title: "Hair & Beard Full Package",
-        service3Desc: "The ultimate package: haircut, fade, full beard shaping & wash.",
-        service4Title: "Kids Haircut",
-        service4Desc: "Patient & stylish haircut for kids (up to 12 years).",
-        service5Title: "Facial Care & Mask",
-        service5Desc: "Deep pore cleansing face mask for skin refresh.",
+        servicesTitle: "Our Prices & Special Packages",
+        servicesSub: "Premium quality grooming at fair prices. Choose your desired service or one of our value packages.",
+        packagesTitle: "Special Value Packages",
+        pkg1Badge: "VALUE DEAL",
+        pkg1Title: "Package 1",
+        pkg1Desc: "Wash, Cut, Shave, Blow-dry & Styling",
+        pkg2Badge: "POPULAR",
+        pkg2Title: "Package 2",
+        pkg2Desc: "Wash, Cut, Shave, Blow-dry, Styling & Eyebrow Plucking",
+        pkg3Badge: "FULL CARE",
+        pkg3Title: "Package 3",
+        pkg3Desc: "Wash, Cut, Shave, Blow-dry, Styling, Eyebrow Plucking, Coloring (Beard / Hair)",
         selectServiceBtn: "Select & Book",
-        fullPriceTitle: "Complete Price Overview",
-        p1Name: "Professional Men's Haircut",
-        p1Sub: "Scissors or clipper cut with styling finish",
-        p2Name: "Beard Trim & Contours",
-        p2Sub: "Precision shave and line shaping",
-        p3Name: "Haircut + Beard + Hair Wash",
-        p3Sub: "Full styling & grooming package",
-        p4Name: "Kids Haircut",
-        p4Sub: "For youths & kids",
-        p5Name: "Face Mask & Pore Care",
-        p5Sub: "Refreshing skin treatment",
+        fullPriceTitle: "Individual Services & Prices",
+        p1Name: "Dry Haircut",
+        p1Sub: "Classic or modern dry scissor/clipper cut",
+        p2Name: "Wash, Cut, Blow-dry",
+        p2Sub: "Includes hair wash, haircut and blow-dry styling",
+        p3Name: "Beard Shave",
+        p3Sub: "Precision razor shave and outline shaping",
+        p4Name: "Eyebrow Plucking",
+        p4Sub: "Precise plucking and shaping",
+        p5Name: "Kids Haircut (up to 10 years)",
+        p5Sub: "Patient and modern cut for kids",
+        p6Name: "Wash, Blow-dry, Styling",
+        p6Sub: "Hair wash, blow-dry and finish styling",
+        p7Name: "Beard / Hair Coloring",
+        p7Sub: "Professional beard or hair tint & dye",
         galleryTag: "GALLERY",
         galleryTitle: "Impressions & Our Work",
         gallerySub: "Precision craftsmanship, modern cuts, and sharp beard designs.",
@@ -431,10 +437,17 @@ function updateLiveBusinessStatus() {
 }
 
 // --- Service Card Quick Selection ---
-function quickSelectService(serviceName) {
+function quickSelectService(serviceIdentifier) {
     const serviceSelect = document.getElementById('serviceSelect');
     if (serviceSelect) {
-        serviceSelect.value = serviceName;
+        const query = serviceIdentifier.toLowerCase();
+        for (let i = 0; i < serviceSelect.options.length; i++) {
+            const opt = serviceSelect.options[i];
+            if (opt.value && (opt.value.toLowerCase().includes(query) || opt.text.toLowerCase().includes(query))) {
+                serviceSelect.selectedIndex = i;
+                break;
+            }
+        }
     }
     const bookingSection = document.getElementById('booking');
     if (bookingSection) {
@@ -550,14 +563,20 @@ function handleBookingSubmit(e) {
     appointments.push(newAppointment);
     localStorage.setItem('barberAppointments', JSON.stringify(appointments));
 
+    // Send Email Notification to Habapli7@gmail.com
+    sendEmailNotification(newAppointment);
+
     // Show Confirmation Modal
     const modalMsg = document.getElementById('modalMessage');
     if (modalMsg) {
         modalMsg.innerHTML = `
-            <strong>Muster:</strong> ${name}<br>
+            <strong>Muster:</strong> ${escapeHtml(name)}<br>
             <strong>Datum:</strong> ${formatDisplayDate(date)} | <strong>Uhrzeit:</strong> ${time}<br>
-            <strong>Leistung:</strong> ${service}<br>
-            <strong>Telefon:</strong> ${phone}
+            <strong>Leistung:</strong> ${escapeHtml(service)}<br>
+            <strong>Telefon:</strong> ${escapeHtml(phone)}<br>
+            <div style="margin-top: 8px; font-size: 0.82rem; color: var(--primary-gold);">
+                <i class="fa-solid fa-envelope"></i> E-Mail Benachrichtigung an Barber gesendet!
+            </div>
         `;
     }
 
@@ -570,6 +589,51 @@ function handleBookingSubmit(e) {
     document.getElementById('booking-form').reset();
     document.getElementById('selectedTimeSlot').value = '';
     renderTimeSlots(date);
+}
+
+// --- Email Notification Dispatcher ---
+const NOTIFICATION_EMAIL = "Habapli7@gmail.com";
+
+function sendEmailNotification(appointment) {
+    const formattedDate = formatDisplayDate(appointment.date);
+    
+    // Prepare FormSubmit JSON payload
+    const payload = {
+        _subject: `💈 YENİ TERMİN: ${appointment.name} - ${formattedDate} (${appointment.time})`,
+        _template: "table",
+        _captcha: "false",
+        "Müşteri Adı / Name": appointment.name,
+        "Telefon / Phone": appointment.phone,
+        "Tarih / Date": formattedDate,
+        "Saat / Time": appointment.time,
+        "Hizmet / Service": appointment.service,
+        "Notlar / Notes": appointment.notes || "Yok / Keine",
+        "Randevu Durumu": appointment.status || "Bekliyor",
+        "Kayıt Zamanı": new Date().toLocaleString('de-DE')
+    };
+
+    fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Email notification sent successfully to " + NOTIFICATION_EMAIL, data);
+    })
+    .catch(error => {
+        console.warn("Email notification delivery warning:", error);
+    });
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+    });
 }
 
 function closeBookingModal() {
