@@ -561,9 +561,6 @@ function handleBookingSubmit(e) {
     appointments.push(newAppointment);
     localStorage.setItem('barberAppointments', JSON.stringify(appointments));
 
-    // --- WhatsApp Bildirimi Gönder ---
-    sendWhatsAppNotification(newAppointment);
-
     const modalMsg = document.getElementById('modalMessage');
     if (modalMsg) {
         modalMsg.innerHTML = `
@@ -597,46 +594,4 @@ function formatDisplayDate(dateStr) {
         return `${parts[2]}.${parts[1]}.${parts[0]}`;
     }
     return dateStr;
-}
-
-// ==========================================================================
-//  WHATSAPP BİLDİRİM SİSTEMİ (CallMeBot API)
-//  ► Kurulum: WhatsApp'tan +34 644 60 49 16 numarasına
-//    "I allow callmebot to send me messages" yaz → API key alırsın.
-//  ► Aldığın API key'i aşağıdaki CALLMEBOT_API_KEY değişkenine gir.
-// ==========================================================================
-const CALLMEBOT_PHONE   = '491639557094';   // +49 163 9557094 (başındaki + olmadan)
-const CALLMEBOT_API_KEY = 'BURAYA_API_KEY'; // ← CallMeBot'tan gelen key'i buraya yaz
-
-function sendWhatsAppNotification(appointment) {
-    // API key henüz girilmemişse bildirimi atla
-    if (!CALLMEBOT_API_KEY || CALLMEBOT_API_KEY === 'BURAYA_API_KEY') {
-        console.warn('[Bildirim] CallMeBot API key girilmemiş — bildirim gönderilmedi.');
-        return;
-    }
-
-    const message = encodeURIComponent(
-        `🔔 YENİ TERMİN – Finale Barbershop\n` +
-        `━━━━━━━━━━━━━━━━━━━━\n` +
-        `👤 Müşteri: ${appointment.name}\n` +
-        `📅 Tarih: ${formatDisplayDate(appointment.date)}\n` +
-        `🕐 Saat: ${appointment.time}\n` +
-        `✂️ Hizmet: ${appointment.service}\n` +
-        `📱 Telefon: ${appointment.phone}` +
-        (appointment.notes ? `\n📝 Not: ${appointment.notes}` : '')
-    );
-
-    const url = `https://api.callmebot.com/whatsapp.php?phone=${CALLMEBOT_PHONE}&text=${message}&apikey=${CALLMEBOT_API_KEY}`;
-
-    fetch(url)
-        .then(response => {
-            if (response.ok) {
-                console.log('[Bildirim] WhatsApp mesajı başarıyla gönderildi ✅');
-            } else {
-                console.error('[Bildirim] WhatsApp gönderilemedi:', response.status);
-            }
-        })
-        .catch(err => {
-            console.error('[Bildirim] WhatsApp API hatası:', err);
-        });
 }
