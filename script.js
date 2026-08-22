@@ -1,5 +1,5 @@
 /* ==========================================================================
-   PREMIUM BERBER V2 - CORE JAVASCRIPT LOGIC
+   DER FINALE BARBERSHOP - CORE JAVASCRIPT LOGIC
    ========================================================================== */
 
 // --- i18n Translations Dictionary ---
@@ -12,9 +12,8 @@ const translations = {
         navGallery: "Galerie",
         navContact: "Kontakt & Anfahrt",
         navBookBtn: "Termin Buchen",
-        navBooking: "Termin Buchen",
         walkInBadge: "Ohne Termin möglich",
-        heroTitle: 'Perfekter Cut & <span class="mono-gradient-text">Präzise Bartpflege</span>',
+        heroTitle: 'Perfekter Cut & <span class="gold-gradient">Präzise Bartpflege</span>',
         heroSubtitle: "Willkommen bei Der Finale Barbershop in Mörfelden-Walldorf. Wir bieten Ihnen professionelle Herrenhaarschnitte, moderne Fades und erstklassiges Styling.",
         heroBookBtn: "Online Termin Buchen",
         stat1Title: "Professionelle Fades",
@@ -81,7 +80,7 @@ const translations = {
         lblDate: "Datum Wählen",
         dateHelp: "Sonntags ist der Salon geschlossen.",
         lblTime: "Freie Uhrzeit Auswählen",
-        timeSlotPlaceholder: "Bitte wählen Sie zuerst links ein Datum aus, um die verfügbaren Zeiten zu sehen.",
+        timeSlotPlaceholder: "Bitte wählen Sie zuerst oben ein Datum aus, um die verfügbaren Zeiten zu sehen.",
         lblName: "Ihr Vor- & Nachname",
         phName: "z.B. Max Mustermann",
         lblPhone: "Telefonnummer",
@@ -115,10 +114,9 @@ const translations = {
         navGallery: "Galeri",
         navContact: "İletişim & Konum",
         navBookBtn: "Randevu Al",
-        navBooking: "Randevu Al",
         walkInBadge: "Terminsiz de gelebilirsiniz",
-        heroTitle: 'Mükemmel Kesim & <span class="mono-gradient-text">Hassas Sakal Bakımı</span>',
-        heroSubtitle: "Mörfelden-Walldorf'taki Der Finale Barbershop'e hoş geldiniz. Profesyonel erkek saç kesimleri, modern fade stilleri ve kaliteli bakım sunuyoruz.",
+        heroTitle: 'Mükemmel Kesim & <span class="gold-gradient">Hassas Sakal Bakımı</span>',
+        heroSubtitle: "Mörfelden-Walldorf'taki Der Finale Barbershop'a hoş geldiniz. Profesyonel erkek saç kesimleri, modern fade stilleri ve kaliteli bakım sunuyoruz.",
         heroBookBtn: "Online Randevu Al",
         stat1Title: "Profesyonel Fades",
         stat1Sub: "Kusursuz geçişler & stiller",
@@ -184,7 +182,7 @@ const translations = {
         lblDate: "Tarih Seçin",
         dateHelp: "Pazar günleri salonumuz kapalıdır.",
         lblTime: "Uygun Saati Seçin",
-        timeSlotPlaceholder: "Uygun saatleri görmek için lütfen soldan bir tarih seçin.",
+        timeSlotPlaceholder: "Uygun saatleri görmek için lütfen yukarıdan bir tarih seçin.",
         lblName: "Adınız ve Soyadınız",
         phName: "Örn: Ahmet Yılmaz",
         lblPhone: "Telefon Numaranız",
@@ -199,7 +197,7 @@ const translations = {
         walkInSub: "Randevusuz ziyaretler de mümkündür",
         instaLabel: "Instagram",
         instaSub: "Instagram üzerinden iletişim ve örnekler",
-        hoursLabel: "Çalışma Saatleri",
+        hoursLabel: "Calışma Saatleri",
         footerTagline: "Mörfelden-Walldorf'taki birinci sınıf erkek kuaförünüz.",
         adminBtn: "Yönetici Paneli",
         allRights: "Tüm hakları saklıdır.",
@@ -218,9 +216,8 @@ const translations = {
         navGallery: "Gallery",
         navContact: "Contact & Location",
         navBookBtn: "Book Now",
-        navBooking: "Book Now",
         walkInBadge: "Walk-ins Welcome",
-        heroTitle: 'Sharp Cuts & <span class="mono-gradient-text">Precision Beard Care</span>',
+        heroTitle: 'Sharp Cuts & <span class="gold-gradient">Precision Beard Care</span>',
         heroSubtitle: "Welcome to Der Finale Barbershop in Mörfelden-Walldorf. We offer professional men's haircuts, modern fades, and premium grooming.",
         heroBookBtn: "Book Online Appointment",
         stat1Title: "Professional Fades",
@@ -287,7 +284,7 @@ const translations = {
         lblDate: "Select Date",
         dateHelp: "The salon is closed on Sundays.",
         lblTime: "Select Available Time",
-        timeSlotPlaceholder: "Please select a date on the left to see available time slots.",
+        timeSlotPlaceholder: "Please select a date above to see available time slots.",
         lblName: "Full Name",
         phName: "e.g. John Doe",
         lblPhone: "Phone Number",
@@ -322,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initApp() {
-    // 1. Mobile Menu Toggle
+    // 1. Setup Mobile Drawer Toggle
     const mobileToggle = document.getElementById('mobileToggle');
     const navMenu = document.getElementById('navMenu');
     if (mobileToggle && navMenu) {
@@ -330,6 +327,7 @@ function initApp() {
             navMenu.classList.toggle('active');
         });
 
+        // Close nav on link click
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
@@ -337,7 +335,7 @@ function initApp() {
         });
     }
 
-    // 2. Set Min Date
+    // 2. Set Minimum Date on Booking Picker to Today
     const dateInput = document.getElementById('bookingDate');
     if (dateInput) {
         const today = new Date().toISOString().split('T')[0];
@@ -345,43 +343,18 @@ function initApp() {
         dateInput.addEventListener('change', handleDateChange);
     }
 
-    // 3. Booking Form Submission
+    // 3. Setup Booking Form Submission
     const bookingForm = document.getElementById('booking-form');
     if (bookingForm) {
         bookingForm.addEventListener('submit', handleBookingSubmit);
     }
 
-    // 4. Live Store Status Check
+    // 4. Update Business Hours Open/Closed Live Indicator
     updateLiveBusinessStatus();
-    setInterval(updateLiveBusinessStatus, 60000);
+    setInterval(updateLiveBusinessStatus, 60000); // refresh every minute
 
     // 5. Initial language setup
     changeLanguage(currentLang);
-}
-
-// --- Sync Service Selection Helper ---
-function syncServiceSelect(val) {
-    const sel = document.getElementById('serviceSelect');
-    if (sel) {
-        sel.value = val;
-    }
-}
-
-// --- Service Card Quick Selection ---
-function quickSelectService(serviceName) {
-    // Sync select
-    syncServiceSelect(serviceName);
-
-    // Sync radio button tile
-    const radio = document.querySelector(`input[name="serviceRadio"][value="${serviceName}"]`);
-    if (radio) {
-        radio.checked = true;
-    }
-
-    const bookingSection = document.getElementById('booking');
-    if (bookingSection) {
-        bookingSection.scrollIntoView({ behavior: 'smooth' });
-    }
 }
 
 // --- i18n Language Switcher Logic ---
@@ -390,6 +363,7 @@ function changeLanguage(lang) {
     currentLang = lang;
     const dict = translations[lang];
 
+    // Update text content for elements with data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) {
@@ -397,10 +371,12 @@ function changeLanguage(lang) {
         }
     });
 
+    // Update document title
     if (dict.docTitle) {
         document.title = dict.docTitle;
     }
 
+    // Update input placeholders
     document.querySelectorAll('[data-ph-i18n]').forEach(el => {
         const key = el.getAttribute('data-ph-i18n');
         if (dict[key]) {
@@ -408,8 +384,10 @@ function changeLanguage(lang) {
         }
     });
 
+    // Refresh live status indicator
     updateLiveBusinessStatus();
 
+    // Re-render time slots if date is selected
     const dateInput = document.getElementById('bookingDate');
     if (dateInput && dateInput.value) {
         renderTimeSlots(dateInput.value);
@@ -424,7 +402,7 @@ function updateLiveBusinessStatus() {
 
     const dict = translations[currentLang];
     const now = new Date();
-    const day = now.getDay();
+    const day = now.getDay(); // 0 = Sunday, 1 = Monday ... 6 = Saturday
     const hour = now.getHours();
     const minute = now.getMinutes();
     const currentTimeVal = hour * 100 + minute;
@@ -432,10 +410,12 @@ function updateLiveBusinessStatus() {
     let isOpen = false;
 
     if (day >= 1 && day <= 5) {
+        // Monday to Friday: 09:00 - 19:00 (0900 to 1900)
         if (currentTimeVal >= 900 && currentTimeVal < 1900) {
             isOpen = true;
         }
     } else if (day === 6) {
+        // Saturday: 09:00 - 18:00 (0900 to 1800)
         if (currentTimeVal >= 900 && currentTimeVal < 1800) {
             isOpen = true;
         }
@@ -447,6 +427,18 @@ function updateLiveBusinessStatus() {
     } else {
         dot.className = 'status-dot closed';
         label.textContent = dict.statusClosed;
+    }
+}
+
+// --- Service Card Quick Selection ---
+function quickSelectService(serviceName) {
+    const serviceSelect = document.getElementById('serviceSelect');
+    if (serviceSelect) {
+        serviceSelect.value = serviceName;
+    }
+    const bookingSection = document.getElementById('booking');
+    if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth' });
     }
 }
 
@@ -466,8 +458,9 @@ function renderTimeSlots(dateStr) {
 
     const dict = translations[currentLang];
     const dateObj = new Date(dateStr);
-    const dayOfWeek = dateObj.getDay();
+    const dayOfWeek = dateObj.getDay(); // 0 = Sun, 1 = Mon ... 6 = Sat
 
+    // Sunday Check
     if (dayOfWeek === 0) {
         slotsContainer.innerHTML = `
             <div class="slots-placeholder">
@@ -478,20 +471,19 @@ function renderTimeSlots(dateStr) {
         return;
     }
 
-    // Mo-Fr: last slot at 18:15 (9:00 + 12 slots of 45min = 18:00), Sa: last at 17:15
-    const maxMinutes = (dayOfWeek === 6) ? (17 * 60 + 15) : (18 * 60 + 15);
+    // Determine working hours
+    // Mon-Fri: 09:00 - 19:00 (last booking 18:30)
+    // Sat: 09:00 - 18:00 (last booking 17:30)
+    const endHour = (dayOfWeek === 6) ? 17 : 18;
 
     const timeSlots = [];
-    let totalMin = 9 * 60; // start at 09:00
-    while (totalMin <= maxMinutes) {
-        const h = Math.floor(totalMin / 60);
-        const m = totalMin % 60;
+    for (let h = 9; h <= endHour; h++) {
         const hourStr = h < 10 ? `0${h}` : `${h}`;
-        const minStr = m < 10 ? `0${m}` : `${m}`;
-        timeSlots.push(`${hourStr}:${minStr}`);
-        totalMin += 45;
+        timeSlots.push(`${hourStr}:00`);
+        timeSlots.push(`${hourStr}:30`);
     }
 
+    // Get booked appointments from localStorage
     const appointments = JSON.parse(localStorage.getItem('barberAppointments')) || [];
     const bookedTimes = appointments
         .filter(app => app.date === dateStr && app.status !== 'Storniert')
@@ -526,12 +518,7 @@ function renderTimeSlots(dateStr) {
 function handleBookingSubmit(e) {
     e.preventDefault();
 
-    let service = document.getElementById('serviceSelect').value;
-    const selectedRadio = document.querySelector('input[name="serviceRadio"]:checked');
-    if (selectedRadio) {
-        service = selectedRadio.value;
-    }
-
+    const service = document.getElementById('serviceSelect').value;
     const date = document.getElementById('bookingDate').value;
     const time = document.getElementById('selectedTimeSlot').value;
     const name = document.getElementById('customerName').value.trim();
@@ -545,6 +532,7 @@ function handleBookingSubmit(e) {
         return;
     }
 
+    // Create appointment object
     const newAppointment = {
         id: Date.now(),
         service,
@@ -553,14 +541,16 @@ function handleBookingSubmit(e) {
         name,
         phone,
         notes,
-        status: 'Bekliyor',
+        status: 'Bekliyor', // Pending
         createdAt: new Date().toISOString()
     };
 
+    // Save to localStorage
     let appointments = JSON.parse(localStorage.getItem('barberAppointments')) || [];
     appointments.push(newAppointment);
     localStorage.setItem('barberAppointments', JSON.stringify(appointments));
 
+    // Show Confirmation Modal
     const modalMsg = document.getElementById('modalMessage');
     if (modalMsg) {
         modalMsg.innerHTML = `
@@ -576,6 +566,7 @@ function handleBookingSubmit(e) {
         modal.classList.add('active');
     }
 
+    // Reset Form
     document.getElementById('booking-form').reset();
     document.getElementById('selectedTimeSlot').value = '';
     renderTimeSlots(date);
