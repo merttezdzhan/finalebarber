@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DER FINALE BARBERSHOP - ADMIN DASHBOARD JAVASCRIPT
+   FINALE BARBERSHOP V2 - ADMIN PANEL DASHBOARD LOGIC
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,44 +7,70 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initAdmin() {
-    loadAppointments();
-
-    // Event listeners for filters
     const searchInput = document.getElementById('searchInput');
     const dateFilter = document.getElementById('dateFilter');
     const statusFilter = document.getElementById('statusFilter');
 
-    if (searchInput) searchInput.addEventListener('input', loadAppointments);
-    if (dateFilter) dateFilter.addEventListener('change', loadAppointments);
-    if (statusFilter) statusFilter.addEventListener('change', loadAppointments);
+    if (searchInput) searchInput.addEventListener('input', renderDashboard);
+    if (dateFilter) dateFilter.addEventListener('change', renderDashboard);
+    if (statusFilter) statusFilter.addEventListener('change', renderDashboard);
+
+    renderDashboard();
 }
 
-function loadAppointments() {
-    const tbody = document.getElementById('appointmentsTableBody');
-    if (!tbody) return;
+function getAppointments() {
+    return JSON.parse(localStorage.getItem('barberAppointments')) || [];
+}
 
-    let appointments = JSON.parse(localStorage.getItem('barberAppointments')) || [];
+function saveAppointments(apps) {
+    localStorage.setItem('barberAppointments', JSON.stringify(apps));
+    renderDashboard();
+}
 
-    // Update Overall Stats
-    updateStats(appointments);
+function renderDashboard() {
+    const apps = getAppointments();
 
-    // Read Filter Values
-    const searchVal = document.getElementById('searchInput')?.value.toLowerCase().trim() || '';
+    // 1. Calculate Stats Counters
+    const todayStr = new Date().toISOString().split('T')[0];
+    
+    const totalCount = apps.length;
+    const pendingCount = apps.filter(a => a.status === 'Bekliyor').length;
+    const approvedCount = apps.filter(a => a.status === 'Onaylandı').length;
+    const todayCount = apps.filter(a => a.date === todayStr).length;
+
+    document.getElementById('statTotalCount').textContent = totalCount;
+    document.getElementById('statPendingCount').textContent = pendingCount;
+    document.getElementById('statApprovedCount').textContent = approvedCount;
+    document.getElementById('statTodayCount').textContent = todayCount;
+
+    // 2. Filter Table Items
+    const searchVal = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
     const dateVal = document.getElementById('dateFilter')?.value || '';
     const statusVal = document.getElementById('statusFilter')?.value || 'ALL';
 
-    // Filter Logic
-    let filtered = appointments.filter(app => {
-        const matchesSearch = app.name.toLowerCase().includes(searchVal) || app.phone.includes(searchVal);
-        const matchesDate = dateVal === '' || app.date === dateVal;
+    const filtered = apps.filter(app => {
+        const matchesSearch = !searchVal || 
+            (app.name && app.name.toLowerCase().includes(searchVal)) || 
+            (app.phone && app.phone.toLowerCase().includes(searchVal)) ||
+            (app.service && app.service.toLowerCase().includes(searchVal));
+
+        const matchesDate = !dateVal || app.date === dateVal;
+
         const matchesStatus = statusVal === 'ALL' || app.status === statusVal;
+
         return matchesSearch && matchesDate && matchesStatus;
     });
 
-    // Sort newest first
-    filtered.sort((a, b) => new Date(`${b.date}T${b.time}`) - new Date(`${a.date}T${a.time}`));
+    // Sort newest date & time first
+    filtered.sort((a, b) => {
+        const dateA = new Date(`${a.date}T${a.time}`);
+        const dateB = new Date(`${b.date}T${b.time}`);
+        return dateB - dateA;
+    });
 
-    tbody.innerHTML = '';
+    // 3. Render Table Rows
+    const tbody = document.getElementById('appointmentsTableBody');
+    if (!tbody) return;
 
     if (filtered.length === 0) {
         tbody.innerHTML = `
@@ -52,8 +78,7 @@ function loadAppointments() {
                 <td colspan="7">
                     <div class="empty-table-state">
                         <i class="fa-solid fa-calendar-xmark"></i>
-                        <h3>Kayıtlı Randevu Bulunamadı</h3>
-                        <p>Arama kriterlerinize uygun randevu bulunmuyor.</p>
+                        <p>Hiç randevu kaydı bulunamadı.</p>
                     </div>
                 </td>
             </tr>
@@ -61,117 +86,99 @@ function loadAppointments() {
         return;
     }
 
-    filtered.forEach(app => {
-        const tr = document.createElement('tr');
-        
+    tbody.innerHTML = filtered.map(app => {
         let statusBadgeClass = 'status-bekliyor';
         if (app.status === 'Onaylandı') statusBadgeClass = 'status-onaylandi';
         if (app.status === 'Storniert') statusBadgeClass = 'status-storniert';
 
-        tr.innerHTML = `
-            <td>
-                <strong><i class="fa-regular fa-calendar"></i> ${formatDate(app.date)}</strong><br>
-                <small style="color: var(--primary-gold);"><i class="fa-regular fa-clock"></i> ${app.time}</small>
-            </td>
-            <td><strong>${escapeHtml(app.name)}</strong></td>
-            <td><a href="tel:${app.phone}" style="color: var(--text-secondary);">${escapeHtml(app.phone)}</a></td>
-            <td><span class="badge badge-gold" style="font-size:0.75rem;">${escapeHtml(app.service)}</span></td>
-            <td><small>${app.notes ? escapeHtml(app.notes) : '-'}</small></td>
-            <td><span class="badge-status ${statusBadgeClass}">${app.status}</span></td>
-            <td>
-                <div class="action-buttons">
-                    <button class="btn btn-icon btn-confirm" title="Onayla" onclick="updateStatus(${app.id}, 'Onaylandı')">
-                        <i class="fa-solid fa-check"></i>
-                    </button>
-                    <button class="btn btn-icon btn-cancel" title="İptal Et" onclick="updateStatus(${app.id}, 'Storniert')">
-                        <i class="fa-solid fa-ban"></i>
-                    </button>
-                    <button class="btn btn-icon btn-delete" title="Sil" onclick="deleteAppointment(${app.id})">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </div>
-            </td>
+        const formattedDate = formatDateDisplay(app.date);
+
+        return `
+            <tr>
+                <td><strong>${formattedDate}</strong> <br><small style="color: var(--amber-light);">${app.time}</small></td>
+                <td><strong>${escapeHtml(app.name)}</strong></td>
+                <td><a href="tel:${escapeHtml(app.phone)}" style="color: var(--text-primary);">${escapeHtml(app.phone)}</a></td>
+                <td>${escapeHtml(app.service)}</td>
+                <td><small style="color: var(--text-muted);">${escapeHtml(app.notes || '-')}</small></td>
+                <td><span class="badge-status ${statusBadgeClass}">${escapeHtml(app.status)}</span></td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn-icon btn-confirm" onclick="updateStatus(${app.id}, 'Onaylandı')" title="Onayla">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                        <button class="btn-icon btn-cancel" onclick="updateStatus(${app.id}, 'Storniert')" title="İptal Et">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                        <button class="btn-icon btn-delete" onclick="deleteAppointment(${app.id})" title="Sil">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
         `;
-
-        tbody.appendChild(tr);
-    });
-}
-
-function updateStats(appointments) {
-    const todayStr = new Date().toISOString().split('T')[0];
-
-    const total = appointments.length;
-    const pending = appointments.filter(a => a.status === 'Bekliyor').length;
-    const approved = appointments.filter(a => a.status === 'Onaylandı').length;
-    const today = appointments.filter(a => a.date === todayStr).length;
-
-    document.getElementById('statTotalCount').textContent = total;
-    document.getElementById('statPendingCount').textContent = pending;
-    document.getElementById('statApprovedCount').textContent = approved;
-    document.getElementById('statTodayCount').textContent = today;
+    }).join('');
 }
 
 function updateStatus(id, newStatus) {
-    let appointments = JSON.parse(localStorage.getItem('barberAppointments')) || [];
-    appointments = appointments.map(app => {
+    let apps = getAppointments();
+    apps = apps.map(app => {
         if (app.id === id) {
             return { ...app, status: newStatus };
         }
         return app;
     });
-    localStorage.setItem('barberAppointments', JSON.stringify(appointments));
-    loadAppointments();
+    saveAppointments(apps);
 }
 
 function deleteAppointment(id) {
-    if (confirm('Bu randevuyu silmek istediğinize emin misiniz?')) {
-        let appointments = JSON.parse(localStorage.getItem('barberAppointments')) || [];
-        appointments = appointments.filter(app => app.id !== id);
-        localStorage.setItem('barberAppointments', JSON.stringify(appointments));
-        loadAppointments();
-    }
+    if (!confirm('Bu randevuyu silmek istediğinizden emin misiniz?')) return;
+    let apps = getAppointments();
+    apps = apps.filter(app => app.id !== id);
+    saveAppointments(apps);
 }
 
 function resetFilters() {
-    document.getElementById('searchInput').value = '';
-    document.getElementById('dateFilter').value = '';
-    document.getElementById('statusFilter').value = 'ALL';
-    loadAppointments();
+    if (document.getElementById('searchInput')) document.getElementById('searchInput').value = '';
+    if (document.getElementById('dateFilter')) document.getElementById('dateFilter').value = '';
+    if (document.getElementById('statusFilter')) document.getElementById('statusFilter').value = 'ALL';
+    renderDashboard();
 }
 
 function exportToCSV() {
-    let appointments = JSON.parse(localStorage.getItem('barberAppointments')) || [];
-    if (appointments.length === 0) {
-        alert('İndirilecek randevu bulunmamaktadır.');
+    const apps = getAppointments();
+    if (apps.length === 0) {
+        alert('İndirilecek randevu kaydı bulunmamaktadır.');
         return;
     }
 
-    let csvContent = "data:text/csv;charset=utf-8,ID,Tarih,Saat,Musteri,Telefon,Hizmet,Notlar,Durum\n";
+    let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // UTF-8 BOM
+    csvContent += "ID;Tarih;Saat;Müşteri Adı;Telefon;Hizmet;Notlar;Durum\n";
 
-    appointments.forEach(a => {
+    apps.forEach(a => {
         const row = [
             a.id,
             a.date,
             a.time,
-            `"${a.name}"`,
-            `"${a.phone}"`,
-            `"${a.service}"`,
-            `"${a.notes || ''}"`,
+            `"${(a.name || '').replace(/"/g, '""')}"`,
+            `"${(a.phone || '').replace(/"/g, '""')}"`,
+            `"${(a.service || '').replace(/"/g, '""')}"`,
+            `"${(a.notes || '').replace(/"/g, '""')}"`,
             a.status
-        ].join(",");
+        ].join(";");
         csvContent += row + "\n";
     });
 
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `Finale_Barbershop_Randevular_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute("download", `finale_barbershop_randevular_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
 
-function formatDate(dateStr) {
+function formatDateDisplay(dateStr) {
+    if (!dateStr) return '';
     const parts = dateStr.split('-');
     if (parts.length === 3) {
         return `${parts[2]}.${parts[1]}.${parts[0]}`;
@@ -179,15 +186,12 @@ function formatDate(dateStr) {
     return dateStr;
 }
 
-function escapeHtml(text) {
-    if (!text) return '';
-    return text.replace(/[&<>"']/g, function(m) {
-        return {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        }[m];
-    });
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }

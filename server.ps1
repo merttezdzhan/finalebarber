@@ -1,5 +1,5 @@
 $port = 8085
-$folder = "C:\Users\mertt\.gemini\antigravity\scratch\finale-barbershop"
+$folder = "C:\Users\mertt\.gemini\antigravity\scratch\finale-barbershop-v2"
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:$port/")
 $listener.Start()

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finale Barbershop | Yönetici Paneli</title>
+    <title>Premium Berber | Yönetici Paneli</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,12 +17,12 @@
 
     <style>
         /* =============================
-           LOGIN SCREEN
+           MONOCHROME ADMIN LOGIN SCREEN
         ============================= */
         .login-screen {
             position: fixed;
             inset: 0;
-            background: var(--bg-dark);
+            background: #000000;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -31,15 +31,13 @@
         }
 
         .login-card {
-            background: var(--bg-panel);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-gold);
-            border-radius: var(--radius-lg);
+            background: #090a0d;
+            border: 1px solid var(--border-silver);
+            border-radius: var(--radius-sm);
             padding: 3rem 2.5rem;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), var(--shadow-gold);
+            box-shadow: var(--shadow-card), var(--shadow-white);
             text-align: center;
         }
 
@@ -53,28 +51,31 @@
 
         .login-subtitle {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 2.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
         }
 
         .login-icon-box {
             width: 70px;
             height: 70px;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid var(--border-gold);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-silver);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
-            color: var(--primary-gold);
-            margin: 0 auto 2rem;
+            color: var(--silver-white);
+            margin: 0 auto 1.8rem;
         }
 
         .login-title {
             font-size: 1.6rem;
             font-weight: 800;
             margin-bottom: 0.3rem;
+            letter-spacing: 2px;
         }
 
         .login-form {
@@ -85,15 +86,17 @@
         }
 
         .login-form label {
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
             color: var(--text-secondary);
             margin-bottom: 0.4rem;
             display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .login-form label i {
-            color: var(--primary-gold);
+            color: var(--silver-white);
             margin-right: 0.4rem;
         }
 
@@ -113,14 +116,15 @@
             margin-top: 0.5rem;
             width: 100%;
             padding: 0.9rem;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         /* =============================
-           ADMIN DASHBOARD
+           ADMIN DASHBOARD STYLES
         ============================= */
         .admin-page {
-            padding-top: 6rem;
+            padding-top: 7rem;
+            padding-bottom: 5rem;
             min-height: 100vh;
         }
 
@@ -136,25 +140,32 @@
             display: flex;
             align-items: center;
             gap: 1.2rem;
-        }
-
-        .admin-stat-icon {
-            font-size: 2rem;
-            color: var(--primary-gold);
-            background: rgba(212, 175, 55, 0.1);
-            width: 60px; height: 60px;
-            display: flex; align-items: center; justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-silver);
             border-radius: var(--radius-sm);
         }
 
+        .admin-stat-icon {
+            font-size: 1.6rem;
+            color: #000000;
+            background: #ffffff;
+            width: 54px; height: 54px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
         .admin-stat-info h3 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 800;
+            font-family: var(--font-heading);
         }
 
         .admin-stat-info p {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .admin-controls-bar {
@@ -165,6 +176,9 @@
             gap: 1rem;
             align-items: center;
             justify-content: space-between;
+            background: var(--bg-card);
+            border: 1px solid var(--border-silver);
+            border-radius: var(--radius-sm);
         }
 
         .filter-group {
@@ -182,14 +196,14 @@
         .table-responsive {
             width: 100%;
             overflow-x: auto;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-gold);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-silver);
+            background: var(--bg-card);
         }
 
         .admin-table {
             width: 100%;
             border-collapse: collapse;
-            background: var(--bg-card);
             text-align: left;
         }
 
@@ -200,31 +214,33 @@
         }
 
         .admin-table th {
-            background: rgba(0, 0, 0, 0.4);
-            color: var(--primary-gold);
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--silver-white);
             font-family: var(--font-heading);
             font-weight: 700;
             text-transform: uppercase;
             font-size: 0.8rem;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         .admin-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .badge-status {
             padding: 0.3rem 0.7rem;
-            border-radius: var(--radius-full);
-            font-size: 0.8rem;
+            border-radius: 2px;
+            font-size: 0.75rem;
             font-weight: 700;
             display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .status-bekliyor {
-            background: rgba(245, 158, 11, 0.15);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--silver-white);
+            border: 1px solid var(--border-silver);
         }
 
         .status-onaylandi {
@@ -248,13 +264,22 @@
             width: 32px;
             height: 32px;
             padding: 0;
-            border-radius: 4px;
+            border-radius: 2px;
             font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-confirm { background: #10b981; color: #fff; }
         .btn-cancel { background: #f59e0b; color: #fff; }
         .btn-delete { background: #ef4444; color: #fff; }
+
+        .btn-confirm:hover, .btn-cancel:hover, .btn-delete:hover {
+            opacity: 0.85;
+        }
 
         .empty-table-state {
             padding: 4rem;
@@ -264,7 +289,7 @@
 
         .empty-table-state i {
             font-size: 3rem;
-            color: var(--primary-gold);
+            color: var(--silver-white);
             margin-bottom: 1rem;
             display: block;
         }
@@ -277,8 +302,7 @@
             font-size: 0.85rem;
         }
         .btn-logout:hover {
-            background: rgba(239, 68, 68, 0.2);
-            transform: none;
+            background: rgba(239, 68, 68, 0.25);
         }
     </style>
 </head>
@@ -290,8 +314,8 @@
     <div class="login-screen" id="loginScreen">
         <div class="login-card">
             <div class="login-logo">
-                <span class="logo-badge">DER</span>
-                <span class="logo-text">FINALE <span class="logo-sub">BARBERSHOP</span></span>
+                <span class="logo-badge">PREMIUM</span>
+                <span class="logo-text">BERBER <span class="logo-sub">MÖRFELDEN</span></span>
             </div>
             <p class="login-subtitle">Yönetici Paneli Erişimi</p>
 
@@ -331,9 +355,9 @@
         <header class="site-header">
             <nav class="navbar">
                 <a href="index.html" class="logo">
-                    <span class="logo-badge">DER</span>
-                    <span class="logo-text">FINALE <span class="logo-sub">BARBERSHOP</span></span>
-                    <span style="font-size: 0.85rem; color: var(--primary-gold); margin-left: 0.5rem; background: rgba(212,175,55,0.15); padding: 0.1rem 0.5rem; border-radius: 4px;">ADMIN</span>
+                    <span class="logo-badge">PREMIUM</span>
+                    <span class="logo-text">BERBER <span class="logo-sub">MÖRFELDEN</span></span>
+                    <span style="font-size: 0.75rem; color: #000000; background: #ffffff; font-weight: 900; margin-left: 0.5rem; padding: 0.1rem 0.5rem; border-radius: 2px;">ADMIN</span>
                 </a>
 
                 <div class="nav-actions">
@@ -349,15 +373,15 @@
 
         <main class="admin-page container">
 
-            <div class="section-header">
+            <div class="section-header" style="margin-bottom: 2rem;">
                 <div class="section-tag">YÖNETİM PANELDİR</div>
                 <h1 class="section-title">Randevu Yönetimi Dashboard</h1>
-                <p class="section-subtitle">Der Finale Barbershop müşterilerinin randevularını yönetin, onaylayın veya silin.</p>
+                <p class="section-subtitle" style="margin:0;">Premium Berber müşterilerinin randevularını yönetin, onaylayın veya silin.</p>
             </div>
 
             <!-- Dashboard Statistics -->
             <div class="admin-stats-grid">
-                <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-card">
                     <div class="admin-stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
                     <div class="admin-stat-info">
                         <h3 id="statTotalCount">0</h3>
@@ -365,7 +389,7 @@
                     </div>
                 </div>
 
-                <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-card">
                     <div class="admin-stat-icon"><i class="fa-solid fa-clock"></i></div>
                     <div class="admin-stat-info">
                         <h3 id="statPendingCount">0</h3>
@@ -373,7 +397,7 @@
                     </div>
                 </div>
 
-                <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-card">
                     <div class="admin-stat-icon"><i class="fa-solid fa-check-double"></i></div>
                     <div class="admin-stat-info">
                         <h3 id="statApprovedCount">0</h3>
@@ -381,7 +405,7 @@
                     </div>
                 </div>
 
-                <div class="admin-stat-card glass-panel">
+                <div class="admin-stat-card">
                     <div class="admin-stat-icon"><i class="fa-solid fa-calendar-day"></i></div>
                     <div class="admin-stat-info">
                         <h3 id="statTodayCount">0</h3>
@@ -391,7 +415,7 @@
             </div>
 
             <!-- Controls & Filters -->
-            <div class="admin-controls-bar glass-panel">
+            <div class="admin-controls-bar">
                 <div class="filter-group">
                     <!-- Search Bar -->
                     <input type="text" id="searchInput" class="form-control filter-input" placeholder="Müşteri veya Telefon Ara...">
@@ -445,9 +469,9 @@
     <script src="admin.js"></script>
     <script>
         // ============================================================
-        // LOGIN LOGIC
+        // AUTHENTICATION LOGIC (Password: ramsy)
         // ============================================================
-        const ADMIN_PASSWORD = 'finale1234';
+        const ADMIN_PASSWORD = 'ramsy';
         const SESSION_KEY = 'finale_admin_auth';
 
         function checkSession() {
@@ -457,6 +481,9 @@
         function showDashboard() {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('adminDashboard').style.display = 'block';
+            if (typeof renderDashboard === 'function') {
+                renderDashboard();
+            }
         }
 
         function doLogin(e) {
@@ -480,7 +507,6 @@
             location.reload();
         }
 
-        // Auto-check on page load
         if (checkSession()) {
             showDashboard();
         }
