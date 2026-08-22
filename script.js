@@ -5,7 +5,7 @@
 // --- i18n Translations Dictionary ---
 const translations = {
     de: {
-        docTitle: "Premium Berber | Mörfelden-Walldorf",
+        docTitle: "Der Finale Barbershop | Mörfelden-Walldorf",
         navHome: "Startseite",
         navAbout: "Über Uns",
         navServices: "Leistungen & Preise",
@@ -15,7 +15,7 @@ const translations = {
         navBooking: "Termin Buchen",
         walkInBadge: "Ohne Termin möglich",
         heroTitle: 'Perfekter Cut & <span class="mono-gradient-text">Präzise Bartpflege</span>',
-        heroSubtitle: "Willkommen bei Premium Berber in Mörfelden-Walldorf. Wir bieten Ihnen professionelle Herrenhaarschnitte, moderne Fades und erstklassiges Styling.",
+        heroSubtitle: "Willkommen bei Der Finale Barbershop in Mörfelden-Walldorf. Wir bieten Ihnen professionelle Herrenhaarschnitte, moderne Fades und erstklassiges Styling.",
         heroBookBtn: "Online Termin Buchen",
         stat1Title: "Professionelle Fades",
         stat1Sub: "Exakte Übergänge & Styles",
@@ -29,7 +29,7 @@ const translations = {
         hoursSun: "Sonntag:",
         hoursClosed: "Geschlossen",
         aboutTag: "ÜBER UNSEREN SALON",
-        aboutTitle: "Premium Berber – Tradition trifft auf modernen Style",
+        aboutTitle: "Der Finale Barbershop – Tradition trifft auf modernen Style",
         aboutDesc1: "In der Westendstraße 3 in Mörfelden-Walldorf bieten wir mehr als nur Haarschnitte – wir bieten ein erstklassiges Pflegeritual für den modernen Mann.",
         aboutDesc2: "Egal ob präziser Skin Fade, klassischer Faconschnitt oder konturenscharfe Bartpflege mit Hot-Towel Behandlung: Bei uns stehen höchste Präzision und Ihre Kundenzufriedenheit an erster Stelle.",
         feat1Title: "Präzise Fades & Schnitte",
@@ -108,7 +108,7 @@ const translations = {
         selectTimeAlert: "Bitte wählen Sie eine freie Uhrzeit aus."
     },
     tr: {
-        docTitle: "Premium Berber | Mörfelden-Walldorf",
+        docTitle: "Der Finale Barbershop | Mörfelden-Walldorf",
         navHome: "Ana Sayfa",
         navAbout: "Hakkımızda",
         navServices: "Hizmetler & Fiyatlar",
@@ -118,7 +118,7 @@ const translations = {
         navBooking: "Randevu Al",
         walkInBadge: "Terminsiz de gelebilirsiniz",
         heroTitle: 'Mükemmel Kesim & <span class="mono-gradient-text">Hassas Sakal Bakımı</span>',
-        heroSubtitle: "Mörfelden-Walldorf'taki Premium Berber'e hoş geldiniz. Profesyonel erkek saç kesimleri, modern fade stilleri ve kaliteli bakım sunuyoruz.",
+        heroSubtitle: "Mörfelden-Walldorf'taki Der Finale Barbershop'e hoş geldiniz. Profesyonel erkek saç kesimleri, modern fade stilleri ve kaliteli bakım sunuyoruz.",
         heroBookBtn: "Online Randevu Al",
         stat1Title: "Profesyonel Fades",
         stat1Sub: "Kusursuz geçişler & stiller",
@@ -132,7 +132,7 @@ const translations = {
         hoursSun: "Pazar:",
         hoursClosed: "Kapalı",
         aboutTag: "SALONUMUZ HAKKINDA",
-        aboutTitle: "Premium Berber – Gelenek ve Modern Stil Bir Arada",
+        aboutTitle: "Der Finale Barbershop – Gelenek ve Modern Stil Bir Arada",
         aboutDesc1: "Mörfelden-Walldorf Westendstraße 3 adresinde sadece saç kesimi değil, modern erkekler için premium bir bakım deneyimi sunuyoruz.",
         aboutDesc2: "Pratik Skin Fade, klasik kesimler veya sıcak havlu destekli sakal bakımı: Bizim için en önemli şey hassasiyet ve müşteri memnuniyetidir.",
         feat1Title: "Hassas Fade & Kesimler",
@@ -211,7 +211,7 @@ const translations = {
         selectTimeAlert: "Lütfen uygun bir randevu saati seçin."
     },
     en: {
-        docTitle: "Premium Berber | Mörfelden-Walldorf",
+        docTitle: "Der Finale Barbershop | Mörfelden-Walldorf",
         navHome: "Home",
         navAbout: "About Us",
         navServices: "Services & Prices",
@@ -221,7 +221,7 @@ const translations = {
         navBooking: "Book Now",
         walkInBadge: "Walk-ins Welcome",
         heroTitle: 'Sharp Cuts & <span class="mono-gradient-text">Precision Beard Care</span>',
-        heroSubtitle: "Welcome to Premium Berber in Mörfelden-Walldorf. We offer professional men's haircuts, modern fades, and premium grooming.",
+        heroSubtitle: "Welcome to Der Finale Barbershop in Mörfelden-Walldorf. We offer professional men's haircuts, modern fades, and premium grooming.",
         heroBookBtn: "Book Online Appointment",
         stat1Title: "Professional Fades",
         stat1Sub: "Flawless transitions & styles",
@@ -235,7 +235,7 @@ const translations = {
         hoursSun: "Sunday:",
         hoursClosed: "Closed",
         aboutTag: "ABOUT OUR SHOP",
-        aboutTitle: "Premium Berber – Tradition Meets Modern Style",
+        aboutTitle: "Der Finale Barbershop – Tradition Meets Modern Style",
         aboutDesc1: "Located at Westendstraße 3 in Mörfelden-Walldorf, we provide more than just haircuts – we deliver a premium grooming experience.",
         aboutDesc2: "Whether it's a precision skin fade, classic haircut, or hot-towel beard treatment: customer satisfaction is our top priority.",
         feat1Title: "Precision Fades & Cuts",
