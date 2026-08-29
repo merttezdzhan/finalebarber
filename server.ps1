@@ -1,5 +1,5 @@
-$port = 8085
-$folder = "C:\Users\mertt\.gemini\antigravity\scratch\finale-barbershop"
+﻿$port = 8085
+$folder = "C:\Users\mertt\.gemini\antigravity\scratch\moerfelden_live"
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:$port/")
 $listener.Start()
@@ -17,8 +17,8 @@ try {
             $ext = [System.IO.Path]::GetExtension($filePath).ToLower()
             switch ($ext) {
                 ".html" { $response.ContentType = "text/html; charset=utf-8" }
-                ".css"  { $response.ContentType = "text/css" }
-                ".js"   { $response.ContentType = "application/javascript" }
+                ".css"  { $response.ContentType = "text/css; charset=utf-8" }
+                ".js"   { $response.ContentType = "application/javascript; charset=utf-8" }
                 ".png"  { $response.ContentType = "image/png" }
                 ".jpg"  { $response.ContentType = "image/jpeg" }
                 default { $response.ContentType = "application/octet-stream" }
