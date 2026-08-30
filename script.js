@@ -1,5 +1,5 @@
 // ==========================================================================
-// FINALE BARBERSHOP - MAIN CLIENT APPLICATION JAVASCRIPT
+// FINALE BARBERSHOP - CLIENT JAVASCRIPT (V9 DYNAMIC SEPARATE CALENDARS)
 // ==========================================================================
 
 const BARBER_EMAIL = "Habapli7@gmail.com";
@@ -8,13 +8,14 @@ const CLOUD_DB_URL = `https://api.restful-api.dev/objects/${CLOUD_DB_ID}`;
 
 // Global App State
 let currentLang = 'de';
+let allExistingAppointments = [];
 let salonSettings = {
     isOpen: true,
     openHour: "09:00",
     closeHour: "19:00"
 };
 
-// Multilingual Translation Dictionaries (with Unicode escapes for 100% character integrity)
+// Multilingual Translation Dictionaries
 const translations = {
     de: {
         docTitle: "Finale Barbershop | M\u00f6rfelden-Walldorf",
@@ -23,6 +24,7 @@ const translations = {
         navServices: "Preise & Pakete",
         navContact: "Kontakt & Anfahrt",
         navBookBtn: "Termin Buchen",
+        navBooking: "Termin Buchen",
         walkInBadge: "Ohne Termin m\u00f6glich",
         heroTitle: "Perfekter Cut & <span class=\"gold-gradient\">Pr\u00e4zise Bartpflege</span>",
         heroSubtitle: "Willkommen bei Finale Barbershop in M\u00f6rfelden-Walldorf. Wir bieten Ihnen professionelle Herrenhaarschnitte, moderne Fades und erstklassiges Styling in entspannter Atmosph\u00e4re.",
@@ -79,30 +81,29 @@ const translations = {
         p7Sub: "Professionelle T\u00f6nung & F\u00e4rbung",
         bookingTag: "ONLINE RESERVIERUNG",
         bookingTitle: "Wunschtermin Vereinbaren",
-        bookingSub: "W\u00e4hlen Sie Ihren Barber, Datum und Uhrzeit aus. Sie erhalten sofort einen Sicherheitscode.",
-        lblBarber: "W\u00e4hlen Sie Ihren Barber",
+        bookingSub: "W\u00e4hlen Sie Ihren Barber, Datum und Uhrzeit aus.",
+        lblBarber: "Friseur / Barber W\u00e4hlen",
         barber1Role: "Usta Berber / Master Stylist",
         barber2Role: "N\u00e4chster freier Barber",
         lblService: "Gew\u00fcnschte Leistung",
         phSelectService: "Bitte Leistung w\u00e4hlen...",
         lblDate: "Datum W\u00e4hlen",
         dateHelp: "Sonntags ist der Salon geschlossen.",
-        lblTime: "Freie Uhrzeit Ausw\u00e4hlen",
-        timeSlotPlaceholder: "Bitte w\u00e4hlen Sie zuerst oben ein Datum aus, um die verf\u00fcgbaren Zeiten zu sehen.",
+        lblTime: "Uhrzeit W\u00e4hlen",
+        timeSlotPlaceholder: "Bitte w\u00e4hlen Sie zuerst oben ein Datum aus.",
         lblName: "Ihr Vor- & Nachname",
         phName: "z.B. Max Mustermann",
         lblPhone: "Telefonnummer",
         phPhone: "z.B. 0152 5164 9190",
-        lblEmail: "E-Mail Adresse (F\u00fcr Best\u00e4tigungscode)",
+        lblEmail: "E-Mail Adresse",
         phEmail: "z.B. max.mustermann@gmail.com",
-        emailHelp: "Terminbest\u00e4tigung und Ihr 6-stelliger Code werden an diese E-Mail gesendet.",
         lblNotes: "Anmerkungen (Optional)",
         phNotes: "z.B. Besondere W\u00fcnsche...",
         btnConfirmBooking: "Termin Jetzt Verbindlich Buchen",
         salonClosedTitle: "Salon ist derzeit geschlossen",
-        salonClosedDesc: "Derzeit k\u00f6nnen online keine Termine vereinbart werden. Bitte rufen Sie uns an oder versuchen Sie es sp\u00e4ter erneut.",
+        salonClosedDesc: "Derzeit k\u00f6nnen online keine Termine vereinbart werden.",
         reviewTitle: "Waren Sie mit unserem Service zufrieden?",
-        reviewDesc: "Ihre Zufriedenheit ist unser gr\u00f6\u00dfter Antrieb! Unterst\u00fctzen Sie Finale Barbershop mit einer 5-Sterne Bewertung auf Google. Wir freuen uns \u00fcber Ihr Feedback!",
+        reviewDesc: "Ihre Zufriedenheit ist unser gr\u00f6\u00dfter Antrieb! Unterst\u00fctzen Sie Finale Barbershop mit einer 5-Sterne Bewertung auf Google.",
         reviewBtn: "Auf Google 5 Sterne Bewerten",
         contactTag: "KONTAKT & STANDORT",
         contactTitle: "Besuchen Sie Uns in M\u00f6rfelden-Walldorf",
@@ -127,6 +128,7 @@ const translations = {
         navServices: "Fiyatlar & Paketler",
         navContact: "\u0130leti\u015fim & Konum",
         navBookBtn: "Randevu Al",
+        navBooking: "Randevu Al",
         walkInBadge: "Randevusuz Gelinebilir",
         heroTitle: "Kusursuz Kesim & <span class=\"gold-gradient\">Profesyonel Sakal Bak\u0131m\u0131</span>",
         heroSubtitle: "Finale Barbershop M\u00f6rfelden-Walldorf'a ho\u015f geldiniz. Profesyonel sa\u00e7 kesimi, modern fade ge\u00e7i\u015fleri ve birinci s\u0131n\u0131f sakal tasar\u0131m\u0131n\u0131 rahat bir atmosferde sunuyoruz.",
@@ -169,7 +171,7 @@ const translations = {
         fullPriceTitle: "Tekil Hizmetler & Fiyatlar",
         p1Name: "Kuru Sa\u00e7 Kesimi",
         p1Sub: "Klasik veya modern kuru kesim",
-        p2Name: "Y\u0131kama, Kesim, F\u00f6n",
+        p2Name: "Waschen, Schneiden, F\u00f6hnen",
         p2Sub: "Sa\u00e7 y\u0131kama, kesim ve f\u00f6n dahil",
         p3Name: "Sakal T\u0131ra\u015f\u0131",
         p3Sub: "Hassas ustura t\u0131ra\u015f\u0131 ve kontur \u015fekillendirme",
@@ -183,7 +185,7 @@ const translations = {
         p7Sub: "Profesyonel sakal ve sa\u00e7 renklendirme",
         bookingTag: "ONL\u0130NE RANDEVU",
         bookingTitle: "Hemen Randevunuzu Olu\u015fturun",
-        bookingSub: "Berberinizi, tarihi ve saati se\u00e7in. Randevu olu\u015fturuldu\u011funda g\u00fcvenlik kodunuzu an\u0131nda alacaks\u0131n\u0131z.",
+        bookingSub: "Berberinizi, tarihi ve saati se\u00e7in.",
         lblBarber: "Berberinizi Se\u00e7in",
         barber1Role: "Usta Berber / Master Stylist",
         barber2Role: "\u0130lk M\u00fcsait Usta / Ekip",
@@ -192,21 +194,20 @@ const translations = {
         lblDate: "Tarih Se\u00e7iniz",
         dateHelp: "Pazar g\u00fcnleri salonumuz kapal\u0131d\u0131r.",
         lblTime: "M\u00fcsait Saat Se\u00e7iniz",
-        timeSlotPlaceholder: "M\u00fcsait saatleri g\u00f6rmek i\u00e7in l\u00fctfen \u00f6nce yukar\u0131dan bir tarih se\u00e7iniz.",
+        timeSlotPlaceholder: "L\u00fctfen \u00f6nce yukar\u0131dan bir tarih se\u00e7iniz.",
         lblName: "Ad\u0131n\u0131z & Soyad\u0131n\u0131z",
         phName: "\u00d6rn: Ahmet Y\u0131lmaz",
         lblPhone: "Telefon Numaran\u0131z",
         phPhone: "\u00d6rn: 0152 5164 9190",
-        lblEmail: "E-Posta Adresiniz (Onay Kodu \u0130\u00e7in)",
+        lblEmail: "E-Posta Adresiniz",
         phEmail: "\u00d6rn: musteri@gmail.com",
-        emailHelp: "Randevu detaylar\u0131 ve 6 haneli kodunuz bu e-postaya iletilecektir.",
         lblNotes: "Notunuz (\u0130ste\u011fe Ba\u011fl\u0131)",
-        phNotes: "\u00d6rn: \u00d6zel sa\u00e7 modeli veya fade tercihi...",
+        phNotes: "\u00d6rn: \u00d6zel sa\u00e7 modeli veya fade...",
         btnConfirmBooking: "Randevuyu Onayla ve Tamamla",
         salonClosedTitle: "Salonumuz \u015eu Anda Randevuya Kapal\u0131d\u0131r",
-        salonClosedDesc: "\u015eu anda online randevu al\u0131m\u0131 kapal\u0131 durumdad\u0131r. L\u00fctfen bizi telefonla aray\u0131n\u0131z veya daha sonra tekrar deneyiniz.",
+        salonClosedDesc: "\u015eu anda online randevu al\u0131m\u0131 kapal\u0131 durumdad\u0131r.",
         reviewTitle: "Hizmetimizden Memnun Kald\u0131n\u0131z m\u0131?",
-        reviewDesc: "Sizin memnuniyetiniz bizim en b\u00fcy\u00fck motivasyonumuz! Finale Barbershop'u Google'da 5 y\u0131ld\u0131z vererek destekleyebilirsiniz. G\u00f6r\u00fc\u015fleriniz bizim i\u00e7in \u00e7ok de\u011ferli!",
+        reviewDesc: "Sizin memnuniyetiniz bizim en b\u00fcy\u00fck motivasyonumuz! Google'da bizi 5 y\u0131ld\u0131zla destekleyebilirsiniz.",
         reviewBtn: "Google'da 5 Y\u0131ld\u0131z Ver",
         contactTag: "\u0130LET\u0130\u015e\u0130M & KONUM",
         contactTitle: "Bizi M\u00f6rfelden-Walldorf'ta Ziyaret Edin",
@@ -231,6 +232,7 @@ const translations = {
         navServices: "Prices & Packages",
         navContact: "Contact",
         navBookBtn: "Book Appointment",
+        navBooking: "Book Appointment",
         walkInBadge: "Walk-ins Welcome",
         heroTitle: "Flawless Cuts & <span class=\"gold-gradient\">Precision Beard Care</span>",
         heroSubtitle: "Welcome to Finale Barbershop in M\u00f6rfelden-Walldorf. We offer premium men's haircuts, sharp skin fades, and expert styling in a relaxed atmosphere.",
@@ -287,7 +289,7 @@ const translations = {
         p7Sub: "Professional color treatment and coverage",
         bookingTag: "ONLINE BOOKING",
         bookingTitle: "Schedule Your Appointment",
-        bookingSub: "Choose your preferred barber, date, and time. You will receive an instant 6-digit security code.",
+        bookingSub: "Choose your preferred barber, date, and time.",
         lblBarber: "Choose Your Barber",
         barber1Role: "Master Stylist",
         barber2Role: "Next Available Barber",
@@ -296,21 +298,20 @@ const translations = {
         lblDate: "Select Date",
         dateHelp: "The salon is closed on Sundays.",
         lblTime: "Choose Available Time",
-        timeSlotPlaceholder: "Please choose a date above to see available time slots.",
+        timeSlotPlaceholder: "Please choose a date above.",
         lblName: "Your Full Name",
         phName: "e.g. John Doe",
         lblPhone: "Phone Number",
         phPhone: "e.g. 0152 5164 9190",
-        lblEmail: "E-Mail Address (For Confirmation Code)",
+        lblEmail: "E-Mail Address",
         phEmail: "e.g. john.doe@gmail.com",
-        emailHelp: "Appointment confirmation and your 6-digit code will be sent to this email.",
         lblNotes: "Notes (Optional)",
-        phNotes: "e.g. Fade height or special requests...",
+        phNotes: "e.g. Fade height...",
         btnConfirmBooking: "Confirm & Book Appointment",
         salonClosedTitle: "Salon is Currently Closed for Bookings",
-        salonClosedDesc: "Online booking is temporarily disabled. Please call us directly or check back later.",
+        salonClosedDesc: "Online booking is temporarily disabled.",
         reviewTitle: "Were you satisfied with our service?",
-        reviewDesc: "Your satisfaction means the world to us! Please support Finale Barbershop with a 5-star Google review. We truly appreciate your feedback!",
+        reviewDesc: "Your satisfaction means the world to us! Please support Finale Barbershop with a 5-star Google review.",
         reviewBtn: "Leave a 5-Star Review on Google",
         contactTag: "CONTACT & LOCATION",
         contactTitle: "Visit Us in M\u00f6rfelden-Walldorf",
@@ -336,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileNav();
     initDatePicker();
     initBookingForm();
-    loadSalonSettings();
+    loadSalonSettingsAndAppointments();
 });
 
 // --- Language Switcher ---
@@ -390,36 +391,53 @@ function initMobileNav() {
     }
 }
 
-// --- Barber Selection ---
+// --- Barber Selection (Per-Barber Separate Calendar) ---
 function selectBarber(barberName) {
     const barberInput = document.getElementById('selectedBarber');
     if (barberInput) barberInput.value = barberName;
 
     const bBahattin = document.getElementById('barberBahattin');
     const bTeam = document.getElementById('barberTeam');
+    const badge = document.getElementById('atelierBarberLiveName');
 
     if (barberName.includes('Bahattin')) {
-        if (bBahattin) bBahattin.classList.add('active');
-        if (bTeam) bTeam.classList.remove('active');
+        if (bBahattin) bBahattin.classList.add('selected');
+        if (bTeam) bTeam.classList.remove('selected');
+        if (badge) badge.textContent = 'Bahattin';
     } else {
-        if (bBahattin) bBahattin.classList.remove('active');
-        if (bTeam) bTeam.classList.add('active');
+        if (bBahattin) bBahattin.classList.remove('selected');
+        if (bTeam) bTeam.classList.add('selected');
+        if (badge) badge.textContent = (currentLang === 'tr' ? 'Finale Ekibi' : 'Finale Team');
+    }
+
+    // Immediately re-render time slots for currently selected date
+    const dateInput = document.getElementById('bookingDate');
+    if (dateInput && dateInput.value) {
+        const selectedDate = new Date(dateInput.value + 'T00:00:00');
+        renderTimeSlots(dateInput.value, selectedDate.getDay());
     }
 }
 
-// --- Quick Select from Service Cards ---
+// --- Sync Service Radio Choice to Hidden Input ---
+function syncServiceChoice(serviceVal) {
+    const hiddenService = document.getElementById('serviceSelect');
+    if (hiddenService) hiddenService.value = serviceVal;
+}
+
+// --- Quick Select from Service Cards in Page ---
 function quickSelectService(serviceIdentifier) {
-    const serviceSelect = document.getElementById('serviceSelect');
-    if (serviceSelect) {
-        const query = serviceIdentifier.toLowerCase();
-        for (let i = 0; i < serviceSelect.options.length; i++) {
-            const opt = serviceSelect.options[i];
-            if (opt.value && (opt.value.toLowerCase().includes(query) || opt.text.toLowerCase().includes(query))) {
-                serviceSelect.selectedIndex = i;
-                break;
-            }
+    const hiddenService = document.getElementById('serviceSelect');
+    const radios = document.querySelectorAll('input[name="serviceOption"]');
+    const query = serviceIdentifier.toLowerCase();
+
+    for (let r of radios) {
+        if (r.value.toLowerCase().includes(query)) {
+            r.checked = true;
+            if (hiddenService) hiddenService.value = r.value;
+            break;
         }
     }
+
     const bookingSection = document.getElementById('booking');
     if (bookingSection) {
         bookingSection.scrollIntoView({ behavior: 'smooth' });
@@ -464,31 +482,41 @@ function clearTimeSlots() {
     if (container) {
         const dict = translations[currentLang];
         container.innerHTML = `
-            <div class="slots-placeholder">
+            <div class="slots-empty-notice">
                 <i class="fa-solid fa-calendar-day"></i>
-                <p>${dict.timeSlotPlaceholder}</p>
+                <span>${dict.timeSlotPlaceholder}</span>
             </div>
         `;
     }
 }
 
-// --- Render Time Slots with Past Hour Block ---
+// --- Render Time Slots with Barber-Specific Availability & Past Hour Filter ---
 function renderTimeSlots(dateStr, dayOfWeek) {
     const container = document.getElementById('timeSlotsContainer');
     const hiddenInput = document.getElementById('selectedTimeSlot');
+    const currentSelectedBarber = document.getElementById('selectedBarber').value || 'Bahattin';
     if (!container || !hiddenInput) return;
 
     hiddenInput.value = '';
     container.innerHTML = '';
 
     const startH = parseInt(salonSettings.openHour ? salonSettings.openHour.split(':')[0] : 9);
-    // Saturday ends at 18:00, Weekdays default 19:00 or from settings
     const endH = dayOfWeek === 6 ? 18 : parseInt(salonSettings.closeHour ? salonSettings.closeHour.split(':')[0] : 19);
 
     const now = new Date();
     const isToday = now.toISOString().split('T')[0] === dateStr;
     const currentHour = now.getHours();
     const currentMin = now.getMinutes();
+
+    // Filter appointments booked ONLY for the currently selected barber on this date!
+    const bookedTimesForBarber = allExistingAppointments
+        .filter(apt => {
+            const isMatchDate = (apt.date === dateStr);
+            const isMatchBarber = (apt.barber && apt.barber.includes(currentSelectedBarber.includes('Bahattin') ? 'Bahattin' : 'Team') || (apt.barber === currentSelectedBarber));
+            const isNotCancelled = (apt.status !== '\u0130ptal Edildi' && apt.status !== 'Iptal Edildi');
+            return isMatchDate && isMatchBarber && isNotCancelled;
+        })
+        .map(apt => apt.time);
 
     const slots = [];
     for (let h = startH; h < endH; h++) {
@@ -500,10 +528,11 @@ function renderTimeSlots(dateStr, dayOfWeek) {
     slots.forEach(time => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'time-slot-btn';
+        btn.className = 'slot-pill-btn';
 
         const [slotH, slotM] = time.split(':').map(Number);
         let isPast = false;
+        let isBooked = bookedTimesForBarber.includes(time);
 
         if (isToday) {
             if (slotH < currentHour || (slotH === currentHour && slotM <= currentMin)) {
@@ -515,10 +544,14 @@ function renderTimeSlots(dateStr, dayOfWeek) {
             btn.classList.add('past');
             btn.disabled = true;
             btn.innerHTML = `<span>${time}</span><small>${currentLang === 'tr' ? 'Ge\u00e7ti' : 'Vorbei'}</small>`;
+        } else if (isBooked) {
+            btn.classList.add('booked');
+            btn.disabled = true;
+            btn.innerHTML = `<span>${time}</span><small>${currentLang === 'tr' ? 'Dolu' : 'Belegt'}</small>`;
         } else {
             btn.innerHTML = `<span>${time}</span><small>${currentLang === 'tr' ? 'M\u00fcsait' : 'Frei'}</small>`;
             btn.addEventListener('click', () => {
-                document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
+                document.querySelectorAll('.slot-pill-btn').forEach(b => b.classList.remove('selected'));
                 btn.classList.add('selected');
                 hiddenInput.value = time;
             });
@@ -534,8 +567,8 @@ function generateAuthCode() {
     return `FN-${randomNum}`;
 }
 
-// --- Cloud DB Salon Settings & Live Status ---
-async function loadSalonSettings() {
+// --- Cloud DB Salon Settings & Appointments Loader ---
+async function loadSalonSettingsAndAppointments() {
     try {
         const res = await fetch(CLOUD_DB_URL);
         if (res.ok) {
@@ -544,10 +577,19 @@ async function loadSalonSettings() {
                 salonSettings.isOpen = (data.data.isOpen === true || data.data.isOpen === "true");
                 salonSettings.openHour = data.data.openHour || "09:00";
                 salonSettings.closeHour = data.data.closeHour || "19:00";
+                
+                if (data.data.appointments) {
+                    try {
+                        allExistingAppointments = JSON.parse(data.data.appointments);
+                    } catch(err) {
+                        allExistingAppointments = [];
+                    }
+                }
             }
         }
     } catch (e) {
-        console.log("Using cached/default settings:", e);
+        console.log("Using cached/local data:", e);
+        allExistingAppointments = JSON.parse(localStorage.getItem('barber_appointments') || '[]');
     }
     applySalonSettings();
 }
@@ -653,6 +695,8 @@ function initBookingForm() {
             createdAt: new Date().toISOString()
         };
 
+        allExistingAppointments.unshift(appointmentData);
+
         // 1. Save Locally
         saveLocalAppointment(appointmentData);
 
@@ -724,19 +768,19 @@ async function saveCloudAppointment(apt) {
 async function sendEmailNotification(apt) {
     try {
         const payload = {
-            "_subject": `???? FINALE BARBER [${apt.authCode}] - ${apt.barber} Randevusu`,
+            "_subject": `\uD83D\uDC88 FINALE BARBER [${apt.authCode}] - ${apt.barber} Randevusu`,
             "_template": "table",
             "_captcha": "false",
-            "G??venlik Kodu": apt.authCode,
-            "Se??ilen Berber": apt.barber,
-            "M????teri Ad??": apt.name,
+            "G\u00fcvenlik Kodu": apt.authCode,
+            "Se\u00e7ilen Berber": apt.barber,
+            "M\u00fc\u015fteri Ad\u0131": apt.name,
             "Telefon": apt.phone,
             "E-Mail": apt.email,
             "Tarih": apt.date,
             "Saat": apt.time,
             "Hizmet": apt.service,
             "Notlar": apt.notes,
-            "Kay??t Tarihi": new Date().toLocaleString('de-DE')
+            "Kay\u0131t Tarihi": new Date().toLocaleString('de-DE')
         };
 
         await fetch(`https://formsubmit.co/ajax/${BARBER_EMAIL}`, {
