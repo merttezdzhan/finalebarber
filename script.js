@@ -4,8 +4,9 @@
 
 const BARBER_EMAIL = "Habapli7@gmail.com";
 
-// ✅ JSONBin.io - Güvenilir bulut veritabanı (restful-api.dev yerine)
-const JSONBIN_KEY = "$2a$10$X58xgrsuu2jgceuqKbZwMelFEISVccnbmNMrGEEJ.vWMnE.q0KYpO";
+// ✅ JSONBin.io
+const JSONBIN_MASTER_KEY = "$2a$10$X58xgrsuu2jgceuqKbZwMelFEISVccnbmNMrGEEJ.vWMnE.q0KYpO";
+const JSONBIN_ACCESS_KEY = "$2a$10$w2Seu7jSWYt7CO.t/krkNuBB5AACfWLkv9nMicOgiObKKQYvDHLey";
 const JSONBIN_BIN_ID = "6a9c06c3f5f4af5e296daa40";
 const CLOUD_DB_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
@@ -574,7 +575,7 @@ function generateAuthCode() {
 async function loadSalonSettingsAndAppointments() {
     try {
         const res = await fetch(CLOUD_DB_URL + "/latest", {
-            headers: { "X-Master-Key": JSONBIN_KEY }
+            headers: { "X-Master-Key": JSONBIN_MASTER_KEY, "X-Access-Key": JSONBIN_ACCESS_KEY }
         });
         if (res.ok) {
             const json = await res.json();
@@ -583,7 +584,15 @@ async function loadSalonSettingsAndAppointments() {
                 salonSettings.isOpen    = data.isOpen ?? true;
                 salonSettings.openHour  = data.openHour  || "09:00";
                 salonSettings.closeHour = data.closeHour || "19:00";
-                allExistingAppointments = Array.isArray(data.appointments) ? data.appointments : [];
+                // Cloud + local birleştir, kayıp olmasın
+                const cloudApts = Array.isArray(data.appointments) ? data.appointments : [];
+                const localApts = JSON.parse(localStorage.getItem('barber_appointments') || '[]');
+                // ID'ye göre birleştir, duplicate olmasın
+                const merged = [...cloudApts];
+                localApts.forEach(la => {
+                    if (!merged.find(ca => ca.id === la.id)) merged.push(la);
+                });
+                allExistingAppointments = merged;
             }
         }
     } catch (e) {
@@ -732,7 +741,7 @@ async function saveCloudAppointment(apt) {
     try {
         // Mevcut veriyi çek
         const getRes = await fetch(CLOUD_DB_URL + "/latest", {
-            headers: { "X-Master-Key": JSONBIN_KEY }
+            headers: { "X-Master-Key": JSONBIN_MASTER_KEY, "X-Access-Key": JSONBIN_ACCESS_KEY }
         });
         let appointments = [];
         let currentData = { isOpen: salonSettings.isOpen, openHour: salonSettings.openHour, closeHour: salonSettings.closeHour };
@@ -752,7 +761,8 @@ async function saveCloudAppointment(apt) {
         await fetch(CLOUD_DB_URL, {
             method: "PUT",
             headers: {
-                "X-Master-Key": JSONBIN_KEY,
+                "X-Master-Key": JSONBIN_MASTER_KEY,
+                "X-Access-Key": JSONBIN_ACCESS_KEY,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(currentData)

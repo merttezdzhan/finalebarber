@@ -3,9 +3,11 @@
 // ==========================================================================
 
 const ADMIN_PASS = "finale1234";
-const JSONBIN_KEY = "$2a$10$X58xgrsuu2jgceuqKbZwMelFEISVccnbmNMrGEEJ.vWMnE.q0KYpO";
+const JSONBIN_MASTER_KEY = "$2a$10$X58xgrsuu2jgceuqKbZwMelFEISVccnbmNMrGEEJ.vWMnE.q0KYpO";
+const JSONBIN_ACCESS_KEY = "$2a$10$w2Seu7jSWYt7CO.t/krkNuBB5AACfWLkv9nMicOgiObKKQYvDHLey";
 const JSONBIN_BIN_ID = "6a9c06c3f5f4af5e296daa40";
 const CLOUD_DB_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+
 
 let allAppointments = [];
 let salonConfig = {
@@ -53,7 +55,7 @@ function showAdminApp() {
 async function syncAllFromCloud(showFeedback = false) {
     try {
         const res = await fetch(CLOUD_DB_URL + "/latest", {
-            headers: { "X-Master-Key": JSONBIN_KEY }
+            headers: { "X-Master-Key": JSONBIN_MASTER_KEY, "X-Access-Key": JSONBIN_ACCESS_KEY }
         });
         if (res.ok) {
             const json = await res.json();
@@ -129,7 +131,7 @@ async function saveCloudSettings() {
         await fetch(CLOUD_DB_URL, {
             method: "PUT",
             headers: {
-                "X-Master-Key": JSONBIN_KEY,
+                "X-Master-Key": JSONBIN_MASTER_KEY, "X-Access-Key": JSONBIN_ACCESS_KEY,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(body)
