@@ -3,8 +3,11 @@
 // ==========================================================================
 
 const BARBER_EMAIL = "Habapli7@gmail.com";
-const CLOUD_DB_ID = "ff808181a04ccf2d01a04e6c4e940c70";
-const CLOUD_DB_URL = `https://api.restful-api.dev/objects/${CLOUD_DB_ID}`;
+
+// ✅ JSONBin.io - Güvenilir bulut veritabanı (restful-api.dev yerine)
+const JSONBIN_KEY = "$2a$10$X58xgrsuu2jgceuqKbZwMelFEISVccnbmNMrGEEJ.vWMnE.q0KYpO";
+const JSONBIN_BIN_ID = "6a9c06c3f5f4af5e296daa40";
+const CLOUD_DB_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
 // Global App State
 let currentLang = 'de';
@@ -567,32 +570,29 @@ function generateAuthCode() {
     return `FN-${randomNum}`;
 }
 
-// --- Cloud DB Salon Settings & Appointments Loader ---
+// --- Salon Settings & Appointments Loader (jsonbin.io) ---
 async function loadSalonSettingsAndAppointments() {
     try {
-        const res = await fetch(CLOUD_DB_URL);
+        const res = await fetch(CLOUD_DB_URL + "/latest", {
+            headers: { "X-Master-Key": JSONBIN_KEY }
+        });
         if (res.ok) {
-            const data = await res.json();
-            if (data && data.data) {
-                salonSettings.isOpen = (data.data.isOpen === true || data.data.isOpen === "true");
-                salonSettings.openHour = data.data.openHour || "09:00";
-                salonSettings.closeHour = data.data.closeHour || "19:00";
-                
-                if (data.data.appointments) {
-                    try {
-                        allExistingAppointments = JSON.parse(data.data.appointments);
-                    } catch(err) {
-                        allExistingAppointments = [];
-                    }
-                }
+            const json = await res.json();
+            const data = json.record;
+            if (data) {
+                salonSettings.isOpen    = data.isOpen ?? true;
+                salonSettings.openHour  = data.openHour  || "09:00";
+                salonSettings.closeHour = data.closeHour || "19:00";
+                allExistingAppointments = Array.isArray(data.appointments) ? data.appointments : [];
             }
         }
     } catch (e) {
-        console.log("Using cached/local data:", e);
+        console.log("Yedek veriler kullanılıyor:", e);
         allExistingAppointments = JSON.parse(localStorage.getItem('barber_appointments') || '[]');
     }
     applySalonSettings();
 }
+
 
 function applySalonSettings() {
     const closedBanner = document.getElementById('salonClosedNotice');
@@ -730,38 +730,36 @@ function saveLocalAppointment(apt) {
 
 async function saveCloudAppointment(apt) {
     try {
-        const getRes = await fetch(CLOUD_DB_URL);
+        // Mevcut veriyi çek
+        const getRes = await fetch(CLOUD_DB_URL + "/latest", {
+            headers: { "X-Master-Key": JSONBIN_KEY }
+        });
         let appointments = [];
+        let currentData = { isOpen: salonSettings.isOpen, openHour: salonSettings.openHour, closeHour: salonSettings.closeHour };
         if (getRes.ok) {
-            const currentData = await getRes.json();
-            if (currentData && currentData.data && currentData.data.appointments) {
-                try {
-                    appointments = JSON.parse(currentData.data.appointments);
-                } catch(err) {
-                    appointments = [];
-                }
+            const json = await getRes.json();
+            if (json.record) {
+                currentData = json.record;
+                appointments = Array.isArray(json.record.appointments) ? json.record.appointments : [];
             }
         }
 
+        // Yeni randevuyu başa ekle
         appointments.unshift(apt);
+        currentData.appointments = appointments;
 
-        const updateBody = {
-            name: "FinaleBarber_Production_DB",
-            data: {
-                isOpen: String(salonSettings.isOpen),
-                openHour: salonSettings.openHour,
-                closeHour: salonSettings.closeHour,
-                appointments: JSON.stringify(appointments)
-            }
-        };
-
+        // Güncelle
         await fetch(CLOUD_DB_URL, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updateBody)
+            method: "PUT",
+            headers: {
+                "X-Master-Key": JSONBIN_KEY,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(currentData)
         });
+        console.log("✅ Randevu jsonbin.io'ya kaydedildi.");
     } catch (e) {
-        console.error("Cloud DB save error:", e);
+        console.error("❌ Kayıt hatası:", e);
     }
 }
 

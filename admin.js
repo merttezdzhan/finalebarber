@@ -3,8 +3,9 @@
 // ==========================================================================
 
 const ADMIN_PASS = "finale1234";
-const CLOUD_DB_ID = "ff808181a04ccf2d01a04e6c4e940c70";
-const CLOUD_DB_URL = `https://api.restful-api.dev/objects/${CLOUD_DB_ID}`;
+const JSONBIN_KEY = "$2a$10$X58xgrsuu2jgceuqKbZwMelFEISVccnbmNMrGEEJ.vWMnE.q0KYpO";
+const JSONBIN_BIN_ID = "6a9c06c3f5f4af5e296daa40";
+const CLOUD_DB_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
 let allAppointments = [];
 let salonConfig = {
@@ -51,24 +52,21 @@ function showAdminApp() {
 // --- Cloud & Local Data Synchronization ---
 async function syncAllFromCloud(showFeedback = false) {
     try {
-        const res = await fetch(CLOUD_DB_URL);
+        const res = await fetch(CLOUD_DB_URL + "/latest", {
+            headers: { "X-Master-Key": JSONBIN_KEY }
+        });
         if (res.ok) {
-            const result = await res.json();
-            if (result && result.data) {
+            const json = await res.json();
+            const result = json.record;
+            if (result) {
                 // 1. Settings
-                salonConfig.isOpen = (result.data.isOpen === true || result.data.isOpen === "true");
-                salonConfig.openHour = result.data.openHour || "09:00";
-                salonConfig.closeHour = result.data.closeHour || "19:00";
+                salonConfig.isOpen    = result.isOpen ?? true;
+                salonConfig.openHour  = result.openHour  || "09:00";
+                salonConfig.closeHour = result.closeHour || "19:00";
                 updateSalonUI();
 
                 // 2. Appointments
-                if (result.data.appointments) {
-                    try {
-                        allAppointments = JSON.parse(result.data.appointments);
-                    } catch(err) {
-                        allAppointments = [];
-                    }
-                }
+                allAppointments = Array.isArray(result.appointments) ? result.appointments : [];
             }
         }
     } catch(e) {
@@ -81,27 +79,27 @@ async function syncAllFromCloud(showFeedback = false) {
     updateStats();
 
     if (showFeedback) {
-        alert("Randevular ve ayarlar buluttan ba\u015far\u0131yla g\u00fcncellendi!");
+        alert("Randevular ve ayarlar buluttan başarıyla güncellendi!");
     }
 }
 
 function updateSalonUI() {
-    const toggleBtn = document.getElementById('salonToggleBtn');
+    const toggleBtn  = document.getElementById('salonToggleBtn');
     const toggleIcon = document.getElementById('salonToggleIcon');
     const toggleText = document.getElementById('salonToggleText');
-    const openSelect = document.getElementById('openHourSelect');
+    const openSelect  = document.getElementById('openHourSelect');
     const closeSelect = document.getElementById('closeHourSelect');
 
-    if (openSelect) openSelect.value = salonConfig.openHour;
+    if (openSelect)  openSelect.value  = salonConfig.openHour;
     if (closeSelect) closeSelect.value = salonConfig.closeHour;
 
     if (salonConfig.isOpen) {
-        toggleBtn.className = 'status-switch-btn open';
-        toggleIcon.className = 'fa-solid fa-circle-check';
-        toggleText.textContent = 'SALON A\u00c7IK (Randevu Al\u0131nabilir)';
+        toggleBtn.className    = 'status-switch-btn open';
+        toggleIcon.className   = 'fa-solid fa-circle-check';
+        toggleText.textContent = 'SALON AÇIK (Randevu Alınabilir)';
     } else {
-        toggleBtn.className = 'status-switch-btn closed';
-        toggleIcon.className = 'fa-solid fa-ban';
+        toggleBtn.className    = 'status-switch-btn closed';
+        toggleIcon.className   = 'fa-solid fa-ban';
         toggleText.textContent = 'SALON KAPALI (Randevular Kilitli)';
     }
 }
@@ -113,28 +111,28 @@ async function toggleSalonState() {
 }
 
 async function saveHoursSettings() {
-    salonConfig.openHour = document.getElementById('openHourSelect').value;
+    salonConfig.openHour  = document.getElementById('openHourSelect').value;
     salonConfig.closeHour = document.getElementById('closeHourSelect').value;
     await saveCloudSettings();
-    alert(`\u00c7al\u0131\u015fma saatleri ${salonConfig.openHour} \u2013 ${salonConfig.closeHour} olarak kaydedildi!`);
+    alert(`Çalışma saatleri ${salonConfig.openHour} – ${salonConfig.closeHour} olarak kaydedildi!`);
 }
 
 async function saveCloudSettings() {
     try {
-        const updateBody = {
-            name: "FinaleBarber_Production_DB",
-            data: {
-                isOpen: String(salonConfig.isOpen),
-                openHour: salonConfig.openHour,
-                closeHour: salonConfig.closeHour,
-                appointments: JSON.stringify(allAppointments)
-            }
+        const body = {
+            isOpen:       salonConfig.isOpen,
+            openHour:     salonConfig.openHour,
+            closeHour:    salonConfig.closeHour,
+            appointments: allAppointments
         };
 
         await fetch(CLOUD_DB_URL, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updateBody)
+            method: "PUT",
+            headers: {
+                "X-Master-Key": JSONBIN_KEY,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
         });
     } catch(e) {
         console.error("Save cloud error:", e);
@@ -147,7 +145,7 @@ function renderAppointmentsTable(list) {
     if (!tbody) return;
 
     if (!list || list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">Hen\u00fcz randevu bulunmamaktad\u0131r.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">Henüz randevu bulunmamaktadır.</td></tr>`;
         return;
     }
 
